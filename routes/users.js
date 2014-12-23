@@ -12,7 +12,7 @@ router.get('/', function(req, res) {
 
 router.get("/put/:username", function(req, res){
   var user = new User({
-    name: req.params.username
+    email: req.params.username
   });
 
   user.save(function(err){
@@ -24,7 +24,7 @@ router.get("/put/:username", function(req, res){
 });
 
 router.get('/:username', function(req, res){
-  User.findOne({name: req.params.username}, function(err, user){
+  User.findOne({email: req.params.username}, function(err, user){
     if (err){
       console.log(err);
       res.send("no user");
@@ -36,7 +36,7 @@ router.get('/:username', function(req, res){
 });
 
 router.get('/delete/:username', function (req, res) {
-  User.remove({name: req.params.username}, function(err, user){
+  User.remove({email: req.params.username}, function(err, user){
     if (err) 
       console.log(err);
     else
