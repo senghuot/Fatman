@@ -1,0 +1,1 @@
+This project is motivated by Khmer24, an online cambodian classified ads. Unfortunately, the Khmer24 is lacks funtuntionality and fail to put people first. Its cover with mostly paid ads which defeat the purpose of letting people posting classified ads effectively. This is an open source project made by khmericans to give back to Cambodia.
