@@ -12,7 +12,10 @@ router.get('/', function(req, res) {
 
 router.get("/put/:username", function(req, res){
   var user = new User({
-    email: req.params.username
+    email: req.params.username,
+    fname: req.params.username,
+    lname: req.params.username,
+    password: req.params.username
   });
 
   user.save(function(err){
