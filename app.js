@@ -10,6 +10,7 @@ var mongoose = require('mongoose');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var categories = require('./routes/categories');
+var apiV1 = require('./routes/api/v1');
 
 var app = express();
 
@@ -26,9 +27,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// route
 app.use('/', routes);
 app.use('/users', users);
 app.use('/categories', categories);
+app.use('/api/v1', apiV1);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
