@@ -35,4 +35,13 @@ router.get('/:username', function(req, res){
   });
 });
 
+router.get('/delete/:username', function (req, res) {
+  User.remove({name: req.params.username}, function(err, user){
+    if (err) 
+      console.log(err);
+    else
+      res.redirect('/users');
+  });
+});
+
 module.exports = router;
