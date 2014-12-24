@@ -5,11 +5,7 @@ var User = require('./../models/user')
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  User.find(function(err, users){
-    res.send(users);
-  });
-
-  // res.render('index', { title: 'Express' });
+	res.render('index', { title: 'HOME' });
 });
 
 module.exports = router;
