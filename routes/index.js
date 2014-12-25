@@ -39,6 +39,7 @@ router.post('/signup', function(req, res){
 
 	req.assert('password', 'Password is required').notEmpty;
 	req.assert('password', 'Password must be between 6 and 20').isLength(6, 20);
+	// uncomment to have superior password combination
 	// req.assert('password', 'Password must contain at least one number').matches('(?=.*\\d)');
 	// req.assert('password', 'Password must contain at least one lowercase character').matches('(?=.*[a-z])');
 	// req.assert('password', 'Password must contain at least one uppercase character').matches('(?=.*[A-Z])');
@@ -48,23 +49,29 @@ router.post('/signup', function(req, res){
 
 	var mapErrors = req.validationErrors(true);
 
-	if (!mapErrors){
+	if (!mapErrors){	// validation success
 		// check if user existed
 		User.findOne({email: req.body.email}, function(err, user){
 			if (err){
+
 				console.log(err);
 				req.flash('message', 'Something went wrong!');
 				req.flash('oldInput', req.body);
 				res.redirect('/signup');
-			}else if (user){
+
+			}else if (user){	// user already existed
+
 				req.flash('message', 'Email is taken. Choose different email!');
 				req.flash('oldInput', req.body);
 				res.redirect('/signup');
-			}else{
+
+			}else{ // user doesn't existed and add user to database
+
 				var user = new User();
 				user.email = req.body.email;
 				user.fname = req.body.fname;
 				user.lname = req.body.lname;
+				user.password = req.body.password;
 
 				user.save(function(err){
 					if (err){
@@ -78,10 +85,11 @@ router.post('/signup', function(req, res){
 					}
 
 				});
+
 			}
 		});
 
-	}else{
+	}else{ // validation fails
 		req.flash('errors', mapErrors);
 		req.flash('oldInput', req.body);
 		res.redirect('/signup');
