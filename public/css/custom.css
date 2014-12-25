@@ -7,3 +7,10 @@ Created:November 2014
 License: Creative Commons Attribution 3.0 License (https://creativecommons.org/licenses/by/3.0/)
 File Description: Place here your custom CSS styles
 */
+
+.banner-caption {
+	position: absolute;
+	top: 20%;
+	width: 100%;
+	z-index: 2;
+}

@@ -1,0 +1,64 @@
+<% include layouts/header.ejs %>
+
+<body class="no-trans">
+
+	<% include layouts/fatmanmenu.ejs %>
+
+	<!-- banner start -->
+	<!-- ================ -->
+	<div id="banner" class="banner">
+		<div class="banner-image"></div>
+		<div class="banner-caption">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 object-non-visible" data-animation-effect="fadeIn">
+						<% if ( errors != '' ) {%>
+							<div class="alert alert-danger" role="alert">
+								<% for (var key in errors[0]) { %>
+									<p> <%= errors[0][key].msg %> </p>
+								<% } %>
+							</div>
+						<% } %>
+
+						<% if (message != '') {%>
+							<div class="alert alert-warning" role="alert">
+								<%= message[0] %>
+							</div>
+						<% } %>
+
+						<form method="POST" action="/signup">
+							<h1 class="text-center">Sign Up</h1>
+							<div class="form-group">
+							    <label for="fname">First Name</label>
+							    <input name="fname" type="text" class="form-control" id="fname" placeholder="First Name" <% if (oldInput != '') { %> value="<%= oldInput[0].fname %>" <% } %>>
+							</div>
+						  	<div class="form-group">
+						    	<label for="lname">Last Name</label>
+						    	<input name="lname" type="text" class="form-control" id="lname" placeholder="Last Name" <% if (oldInput != '') { %> value="<%= oldInput[0].lname %>" <% } %>>
+						  	</div>
+							<div class="form-group">
+							    <label for="email">Email address</label>
+							    <input name='email' type="email" class="form-control" id="email" placeholder="Enter email" <% if (oldInput != '') { %> value="<%= oldInput[0].email %>" <% } %>>
+							</div>
+						  	<div class="form-group">
+						    	<label for="confirmEmail">Confirm Email</label>
+						    	<input name='confirmEmail' type="email" class="form-control" id="confirmEmail" placeholder="Confirm Email" <% if (oldInput != '') { %> value="<%= oldInput[0].confirmEmail %>" <% } %>>
+						  	</div>
+						  	<div class="form-group">
+							    <label for="password">password</label>
+							    <input name="password" type="password" class="form-control" id="password" placeholder="Password">
+							</div>
+						  	<div class="form-group">
+						    	<label for="confirmPassword">Confirm Password</label>
+						    	<input name="confirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+						  	</div>
+						  <button type="submit" class="btn btn-default">Submit</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- banner end -->
+
+<% include layouts/footer.ejs %>		
