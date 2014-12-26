@@ -14,6 +14,7 @@ var users = require('./routes/users');
 var categories = require('./routes/categories');
 var apiV1 = require('./routes/api/v1');
 var locations = require('./routes/locations')
+var hash = require('./routes/hash')
 
 var app = express();
 
@@ -45,6 +46,7 @@ app.use('/users', users);
 app.use('/categories', categories);
 app.use('/api/v1', apiV1);
 app.use('/locations', locations);
+app.use('/hash', hash);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
