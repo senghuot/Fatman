@@ -3,15 +3,38 @@ var router = express.Router();
 
 var User = require('./../models/user')
 
-var bcrypt = require('bcrypt');
+// middleware for checking if use already authenticated
+var auth = function (req, res, next){
+    if (req.isAuthenticated())
+        next();
+    else{
+        req.flash('IntendedPage', req.originalUrl);
+        res.render('login',{
+            isAuthenticated: req.isAuthenticated(),
+            user: req.user
+        });
+    }
+}
+
+// middleware for checking for guest user
+var guest = function (req, res, next){
+    if (req.isAuthenticated())
+        res.redirect('/');
+    else
+        next();
+}
 
 /* GET home page. */
 router.get('/', function(req, res) {
-	res.render('index', { title: 'HOME' });
+	res.locals.isAuthenticated = req.isAuthenticated();
+	res.locals.user = req.user;
+	res.render('index', { 
+		title: 'HOME'
+	});
 });
 
 /* GET signup page. */
-router.get('/signup', function(req, res){
+router.get('/signup', guest, function(req, res){
 	
 	res.render('signup', 
 		{
@@ -24,7 +47,7 @@ router.get('/signup', function(req, res){
 });
 
 /* POST signup page. */
-router.post('/signup', function(req, res){
+router.post('/signup', guest, function(req, res){
 	// to trim input
 	req.body.fname = req.body.fname.trim();
 
@@ -55,16 +78,12 @@ router.post('/signup', function(req, res){
 	var mapErrors = req.validationErrors(true);
 
 	if (!mapErrors){	// validation success
-		
-		// hash password with bcrypt module
-		var salt = bcrypt.genSaltSync(10);
-		var passwordHash = bcrypt.hashSync(req.body.password, salt);
 
 		var user = new User();
 		user.email = req.body.email;
 		user.fname = req.body.fname;
 		user.lname = req.body.lname;
-		user.password = passwordHash;
+		user.password = User.hashPassword(req.body.password);
 
 		user.save(function(err){
 			if (err){

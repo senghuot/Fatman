@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Login</title>
+	</head>
+	<body>
+		<% if (!isAuthenticated) {%>
+			<%= message %>
+			<form method='post' action='/authenticate/login'>
+				email <input type='text' name='email' /><br/>
+				password <input type='password' name='password' /><br/>
+				<input type='submit' value='Log In' />
+			</form>
+		<% } else {%>
+			Hello, <%= user.fname %> <%= user.lname %> <%= user.email %>
+			<a href='/authenticate/logout'>logout</a>
+		<% } %>
+	</body>
+</html>

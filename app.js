@@ -8,13 +8,15 @@ var mongoose = require('mongoose');
 var expressSession = require('express-session');
 var flash = require('connect-flash');
 var expressValidator = require('express-validator');
+var passport = require('./auth');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var categories = require('./routes/categories');
 var apiV1 = require('./routes/api/v1');
-var locations = require('./routes/locations')
-var hash = require('./routes/hash')
+var locations = require('./routes/locations');
+var hash = require('./routes/hash');
+var authenticate = require('./routes/authenticate');
 
 var app = express();
 
@@ -39,14 +41,24 @@ app.use(expressSession({
 app.use(flash());
 app.use(expressValidator());
 
+// passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
-// route
+app.use(function(req, res, next){
+    res.locals.isAuthenticated = req.isAuthenticated();
+    res.locals.user = req.user;
+    next();
+});
+
+// routes
 app.use('/', routes);
 app.use('/users', users);
 app.use('/categories', categories);
 app.use('/api/v1', apiV1);
 app.use('/locations', locations);
 app.use('/hash', hash);
+app.use('/authenticate', authenticate);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

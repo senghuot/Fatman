@@ -47,4 +47,14 @@ router.get('/delete/:username', function (req, res) {
   });
 });
 
+router.get('/check/:password', function(req, res){
+  User.findOne({email: 'chamnaplim18@yahoo.com'}, function(err, user){
+      if ( user.validatePassword(req.params.password) ){
+        res.send('true');
+      }else{
+        res.send('false');
+      }
+  });
+});
+
 module.exports = router;
