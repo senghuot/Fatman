@@ -1,3 +1,4 @@
+// include all the modules
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -9,7 +10,10 @@ var expressSession = require('express-session');
 var flash = require('connect-flash');
 var expressValidator = require('express-validator');
 var passport = require('./auth');
+var csrf = require('csurf');
+var app = express();
 
+// include the routes
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var categories = require('./routes/categories');
@@ -17,8 +21,6 @@ var apiV1 = require('./routes/api/v1');
 var locations = require('./routes/locations');
 var hash = require('./routes/hash');
 var authenticate = require('./routes/authenticate');
-
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,6 +42,7 @@ app.use(expressSession({
 }));
 app.use(flash());
 app.use(expressValidator());
+app.use(csrf());
 
 // passport middleware
 app.use(passport.initialize());

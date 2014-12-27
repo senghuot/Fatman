@@ -25,6 +25,8 @@ var guest = function (req, res, next){
 
 router.get('/login', guest, function(req, res){
     res.render('login', {
+        title: 'LOG IN',
+        csrfToken: req.csrfToken(),
         message: req.flash('message'),
         login: "active"
     });

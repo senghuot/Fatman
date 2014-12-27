@@ -16,8 +16,8 @@
 					</div>
 				  <% } %>	
 
-				  <h1 class="text-center">Log In</h1>		
-
+				  <h1 class="text-center">Log In</h1>
+					<input type="hidden" name="_csrf" value=<%=csrfToken%>>
 				  <div class="form-group">
 				    <label for="email" class="control-label">Email</label>
 				    <input name="email" type="email" class="form-control" id="email" placeholder="Email">

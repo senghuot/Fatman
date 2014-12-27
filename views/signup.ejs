@@ -26,6 +26,7 @@
 
 			<form method="POST" action="/signup">
 				<h1 class="text-center">Sign Up</h1>
+				<input type="hidden" name="_csrf", value=<%=csrfToken%>>
 				<div class="form-group">
 					<label for="fname" class="control-label">First Name</label>
 				    <input name="fname" type="text" class="form-control" id="fname" placeholder="First Name" <% if (oldInput != '') { %> value="<%= oldInput[0].fname %>" <% } %>>

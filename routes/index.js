@@ -9,10 +9,14 @@ var auth = function (req, res, next){
         next();
     else{
         req.flash('IntendedPage', req.originalUrl);
-        res.render('login',{
+        res.render('login',
+        	{
+						title: 'LOG IN',
+						csrfToken: req.csrfToken(),
             isAuthenticated: req.isAuthenticated(),
             user: req.user
-        });
+        	}
+        );
     }
 }
 
@@ -39,7 +43,8 @@ router.get('/signup', guest, function(req, res){
 	
 	res.render('signup', 
 		{
-			title: 'SIGN UP',
+			title: 'Sign Up',
+			csrfToken: req.csrfToken(),
 			errors: req.flash('errors'),
 			oldInput: req.flash('oldInput'),
 			message: req.flash('message')
