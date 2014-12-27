@@ -29,7 +29,8 @@ router.get('/', function(req, res) {
 	res.locals.isAuthenticated = req.isAuthenticated();
 	res.locals.user = req.user;
 	res.render('index', { 
-		title: 'HOME'
+		title: 'HOME',
+		home: 'active'
 	});
 });
 

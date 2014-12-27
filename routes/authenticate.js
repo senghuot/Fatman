@@ -24,7 +24,10 @@ var guest = function (req, res, next){
 }
 
 router.get('/login', guest, function(req, res){
-    res.render('login', {message: req.flash('message')});
+    res.render('login', {
+        message: req.flash('message'),
+        login: "active"
+    });
 });
 
 router.post('/login', function(req, res, next){

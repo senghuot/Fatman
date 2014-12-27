@@ -1,19 +1,43 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Login</title>
-	</head>
-	<body>
-		<% if (!isAuthenticated) {%>
-			<%= message %>
-			<form method='post' action='/authenticate/login'>
-				email <input type='text' name='email' /><br/>
-				password <input type='password' name='password' /><br/>
-				<input type='submit' value='Log In' />
-			</form>
-		<% } else {%>
-			Hello, <%= user.fname %> <%= user.lname %> <%= user.email %>
-			<a href='/authenticate/logout'>logout</a>
-		<% } %>
-	</body>
-</html>
+<% include layouts/header.ejs %>
+
+<body class="no-trans">
+
+<% include layouts/menu.ejs %>
+
+	<!-- INTRO WRAP -->
+	<div id="intro">
+		<div class="container">
+			<div class="row col-md-8 col-md-offset-2">
+
+				<form method="post" action="">
+				  <% if (message != '') { %>
+					<div class="alert alert-danger" role="alert">
+						<%= message %>
+					</div>
+				  <% } %>	
+
+				  <h1 class="text-center">Log In</h1>		
+
+				  <div class="form-group">
+				    <label for="email" class="control-label">Email</label>
+				    <input name="email" type="email" class="form-control" id="email" placeholder="Email">
+				  </div>
+
+				  <div class="form-group">
+				    <label for="password" class="control-label">Password</label>
+				    <input name="password" type="password" class="form-control" id="password" placeholder="Password">
+				  </div>
+				  
+				  <div class="form-group">
+				    <button type="submit" class="btn btn-default">Log in</button>
+				    <br/> No account yet! <a href="/signup">sign up</a> here
+				  </div>
+				  </div>
+				</form>
+			</div>
+			<br>
+			
+	    </div> <!--/ .container -->
+	</div><!--/ #introwrap -->
+
+<% include layouts/footer.ejs %>
