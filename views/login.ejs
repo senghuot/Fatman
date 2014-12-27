@@ -1,45 +1,49 @@
 <% include layouts/header.ejs %>
 
-<body class="no-trans">
+<body>
 
 <% include layouts/menu.ejs %>
 
-	<!-- INTRO WRAP -->
-	<div id="intro">
-		<div class="container">
-			<div class="row col-md-8 col-md-offset-2">
+<!-- *****************************************************************************************************************
+ BLUE WRAP
+ ***************************************************************************************************************** -->
+<div id="blue">
+    <div class="container">
+		<div class="row">
+			<h3>Login</h3>
+		</div><!-- /row -->
+    </div> <!-- /container -->
+</div><!-- /blue -->
+	
+<div class="container mtb">
+	<div class="row col-md-8 col-md-offset-2">
 
-				<form method="post" action="">
-				  <% if (message != '') { %>
-					<div class="alert alert-danger" role="alert">
-						<%= message %>
-					</div>
-				  <% } %>	
-
-				  <h1 class="text-center">Log In</h1>
-					<input type="hidden" name="_csrf" value=<%=csrfToken%>>
-				  <div class="form-group">
-				    <label for="email" class="control-label">Email</label>
-				    <input name="email" type="email" class="form-control" id="email" placeholder="Email">
-				  </div>
-
-				  <div class="form-group">
-				    <label for="password" class="control-label">Password</label>
-				    <input name="password" type="password" class="form-control" id="password" placeholder="Password">
-				  </div>
-				  
-				  <div class="form-group">
-				    <button type="submit" class="btn btn-default">Log in</button>
-				  </div>
-
-				  <div class="form-group">
-				  	No account yet! <a href="/signup">sign up</a> here
-				  </div>
-				</form>
+		<form method="post" action="">
+		  <% if (message != '') { %>
+			<div class="alert alert-danger" role="alert">
+				<%= message %>
 			</div>
-			<br>
-			
-	    </div> <!--/ .container -->
-	</div><!--/ #introwrap -->
+		  <% } %>	
+
+			<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+		  <div class="form-group">
+		    <input name="email" type="email" class="form-control" id="email" placeholder="Email">
+		  </div>
+
+		  <div class="form-group">
+		    <input name="password" type="password" class="form-control" id="password" placeholder="Password">
+		  </div>
+		  
+		  <div class="form-group">
+		    <button type="submit" class="btn btn-default">Log in</button>
+		  </div>
+
+		  <div class="form-group">
+		  	No account yet! <a href="/signup">sign up</a> here
+		  </div>
+		</form>
+	</div>
+</div> <!--/ .container -->
+	
 
 <% include layouts/footer.ejs %>

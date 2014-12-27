@@ -16,6 +16,7 @@ var auth = function (req, res, next){
     }
 }
 
+// middleware for checking for guest
 var guest = function (req, res, next){
     if (req.isAuthenticated())
         res.redirect('/');

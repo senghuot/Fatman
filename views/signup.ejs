@@ -1,65 +1,69 @@
 <% include layouts/header.ejs %>
 
-<body class="no-trans">
+<body>
 
 <% include layouts/menu.ejs %>
+
+<!-- *****************************************************************************************************************
+ BLUE WRAP
+ ***************************************************************************************************************** -->
+<div id="blue">
+    <div class="container">
+		<div class="row">
+			<h3>Sign Up</h3>
+		</div><!-- /row -->
+    </div> <!-- /container -->
+</div><!-- /blue -->
 	
-<div id="intro">
-	<div class="container">
-		<div class="row col-md-8 col-md-offset-2">
-			
-			<% if ( errors != '' ) {%>
-				<div class="alert alert-danger" role="alert">
-					<ul>
-					<% for (var key in errors[0]) { %>
-						<li> <%= errors[0][key].msg %> </li>
-					<% } %>
-					<ul>
-				</div>
-			<% } %>
 
-			<% if (message != '') {%>
-				<div class="alert alert-warning" role="alert">
-					<%= message[0] %>
-				</div>
-			<% } %>
+<div class="container mtb">
+	<div class="row col-md-8 col-md-offset-2">
+		
+		<% if ( errors != '' ) {%>
+			<div class="alert alert-danger" role="alert">
+				<ul>
+				<% for (var key in errors[0]) { %>
+					<li> <%= errors[0][key].msg %> </li>
+				<% } %>
+				<ul>
+			</div>
+		<% } %>
 
-			<form method="POST" action="/signup">
-				<h1 class="text-center">Sign Up</h1>
-				<input type="hidden" name="_csrf", value=<%=csrfToken%>>
-				<div class="form-group">
-					<label for="fname" class="control-label">First Name</label>
-				    <input name="fname" type="text" class="form-control" id="fname" placeholder="First Name" <% if (oldInput != '') { %> value="<%= oldInput[0].fname %>" <% } %>>
-				</div>
-			  	<div class="form-group">
-			  		<label for="lname" class="control-label">Last Name</label>
-			    	<input name="lname" type="text" class="form-control" id="lname" placeholder="Last Name" <% if (oldInput != '') { %> value="<%= oldInput[0].lname %>" <% } %>>
-			  	</div>
-				<div class="form-group">
-					<label for="email" class="control-label">Email</label>
-				    <input name='email' type="email" class="form-control" id="email" placeholder="Enter email" <% if (oldInput != '') { %> value="<%= oldInput[0].email %>" <% } %>>
-				</div>
-			  	<div class="form-group">
-			  		<label for="confirmEmail" class="control-label">Confirm Email</label>
-			    	<input name='confirmEmail' type="email" class="form-control" id="confirmEmail" placeholder="Confirm Email" <% if (oldInput != '') { %> value="<%= oldInput[0].confirmEmail %>" <% } %>>
-			  	</div>
-			  	<div class="form-group">
-			  		<label for="password" class="control-label">Password</label>
-				    <input name="password" type="password" class="form-control" id="password" placeholder="Password">
-				</div>
-			  	<div class="form-group">
-			  		<label for="confirmPassword" class="control-label">Confirm Password</label>
-			    	<input name="confirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
-			  	</div>
-			  	<div class="form-group">
-			  		<button type="submit" class="btn btn-default">Submit</button>
-			  	</div>
-			  	<div class="form-group">
-			  		Already have account! <a href="/authenticate/login">log in</a> here
-			  	</div>
-			</form>
-		</div>
+		<% if (message != '') {%>
+			<div class="alert alert-warning" role="alert">
+				<%= message[0] %>
+			</div>
+		<% } %>
+
+		<form method="POST" action="/signup">
+			<input type="hidden" name="_csrf", value=<%=csrfToken%>>
+			<div class="form-group">
+			    <input name="fname" type="text" class="form-control" id="fname" placeholder="First Name" <% if (oldInput != '') { %> value="<%= oldInput[0].fname %>" <% } %>>
+			</div>
+		  	<div class="form-group">
+		    	<input name="lname" type="text" class="form-control" id="lname" placeholder="Last Name" <% if (oldInput != '') { %> value="<%= oldInput[0].lname %>" <% } %>>
+		  	</div>
+			<div class="form-group">
+			    <input name='email' type="email" class="form-control" id="email" placeholder="Enter email" <% if (oldInput != '') { %> value="<%= oldInput[0].email %>" <% } %>>
+			</div>
+		  	<div class="form-group">
+		    	<input name='confirmEmail' type="email" class="form-control" id="confirmEmail" placeholder="Confirm Email" <% if (oldInput != '') { %> value="<%= oldInput[0].confirmEmail %>" <% } %>>
+		  	</div>
+		  	<div class="form-group">
+			    <input name="password" type="password" class="form-control" id="password" placeholder="Password">
+			</div>
+		  	<div class="form-group">
+		    	<input name="confirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+		  	</div>
+		  	<div class="form-group">
+		  		<button type="submit" class="btn btn-default">Submit</button>
+		  	</div>
+		  	<div class="form-group">
+		  		Already have account! <a href="/authenticate/login">log in</a> here
+		  	</div>
+		</form>
 	</div>
 </div>
+
 
 <% include layouts/footer.ejs %>		

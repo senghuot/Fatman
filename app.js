@@ -26,7 +26,7 @@ var authenticate = require('./routes/authenticate');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.locals.siteName = "Fatman";
+app.locals.siteName = "FATMAN";
 
 // uncomment after placing your favicon in /public
 app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -48,6 +48,7 @@ app.use(csrf());
 app.use(passport.initialize());
 app.use(passport.session());
 
+// give user object to every route
 app.use(function(req, res, next){
     res.locals.isAuthenticated = req.isAuthenticated();
     res.locals.user = req.user;

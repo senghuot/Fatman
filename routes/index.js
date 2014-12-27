@@ -30,11 +30,25 @@ var guest = function (req, res, next){
 
 /* GET home page. */
 router.get('/', function(req, res) {
-	res.locals.isAuthenticated = req.isAuthenticated();
-	res.locals.user = req.user;
 	res.render('index', { 
 		title: 'HOME',
 		home: 'active'
+	});
+});
+
+/* GET about page. */
+router.get('/about', function(req, res){
+	res.render('about', {
+		title: 'ABOUT',
+		about: 'active'
+	});
+});
+
+/* GET contact page. */
+router.get('/contact', function(req, res){
+	res.render('contact', {
+		title: 'CONTACT',
+		contact: 'active'
 	});
 });
 
