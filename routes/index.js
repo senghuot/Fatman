@@ -3,30 +3,7 @@ var router = express.Router();
 
 var User = require('./../models/user')
 
-// middleware for checking if use already authenticated
-var auth = function (req, res, next){
-    if (req.isAuthenticated())
-        next();
-    else{
-        req.flash('IntendedPage', req.originalUrl);
-        res.render('login',
-        	{
-						title: 'LOG IN',
-						csrfToken: req.csrfToken(),
-            isAuthenticated: req.isAuthenticated(),
-            user: req.user
-        	}
-        );
-    }
-}
-
-// middleware for checking for guest user
-var guest = function (req, res, next){
-    if (req.isAuthenticated())
-        res.redirect('/');
-    else
-        next();
-}
+var before = require('./../before');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -53,7 +30,7 @@ router.get('/contact', function(req, res){
 });
 
 /* GET signup page. */
-router.get('/signup', guest, function(req, res){
+router.get('/signup', before.guest, function(req, res){
 	
 	res.render('signup', 
 		{
@@ -67,7 +44,7 @@ router.get('/signup', guest, function(req, res){
 });
 
 /* POST signup page. */
-router.post('/signup', guest, function(req, res){
+router.post('/signup', before.guest, function(req, res){
 	// to trim input
 	req.body.fname = req.body.fname.trim();
 

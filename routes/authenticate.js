@@ -1,30 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('./../auth');
+var before = require('./../before');
 
 var bcrypt = require('bcrypt');
 
 var User = require('./../models/user');
 
-// middleware for checking if use already authenticated
-var auth = function (req, res, next){
-    if (req.isAuthenticated())
-        next();
-    else{
-        req.flash('IntendedPage', req.originalUrl);
-        res.redirect('/authenticate/login');
-    }
-}
-
-// middleware for checking for guest
-var guest = function (req, res, next){
-    if (req.isAuthenticated())
-        res.redirect('/');
-    else
-        next();
-}
-
-router.get('/login', guest, function(req, res){
+router.get('/login', before.guest, function(req, res){
     res.render('login', {
         title: 'LOG IN',
         csrfToken: req.csrfToken(),
@@ -53,13 +36,13 @@ router.post('/login', function(req, res, next){
     })(req, res, next);
 });
 
-router.get('/logout', auth, function(req, res){
+router.get('/logout', before.auth, function(req, res){
     req.logout();
     res.redirect('/');
 });
 
 // need to authenticate before access that page
-router.get('/needAuth', auth, function(req, res){
+router.get('/needAuth', before.auth, function(req, res){
         res.send('success');
     }
 );
