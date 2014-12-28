@@ -15,6 +15,65 @@
     </div> <!-- /container -->
 </div><!-- /blue -->
 
-user id: <%= user.id %>
+<div class="container mtb">
+    <form class="form-horizontal" method="POST" action="/post">
+      <div class="form-group">
+        <label class="control-label col-sm-2"> Category: </label>
+        <label class="control-label col-sm-1"> SmartPhones </label>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2"> Title: </label>
+        <div class="col-sm-10">
+          <input name="title" type="text" class="form-control" id="title" placeholder="Title" <% if (oldInput != '') { %> value="<%= oldInput[0].title %>" <% } %>>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2"> Condition: </label>
+        <div class="col-sm-10">
+          <input name="title" type="text" class="form-control" id="title" placeholder="Condition" <% if (oldInput != '') { %> value="<%= oldInput[0].condition %>" <% } %>>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2"> Photos: </label>
+        <div class="col-sm-10">
+          <button class="btn btn-default" type="submit">Add Photos</button>
+          <p class="help-block">Add up to 12 photos.</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2"> Details: </label>
+        <div class="col-sm-10">
+          <textarea class="form-control" rows="3"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2"> Price: </label>
+        <div class="col-sm-3">
+          <div class="input-group">
+            <div class="input-group-addon">$</div>
+            <input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
+            <div class="input-group-addon">.00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2"> Location: </label>
+        <div class="col-sm-3">
+          <select class="form-control">
+            <option>Seattle</option>
+            <option>Tacoma</option>
+            <option>Moutain View</option>
+            <option>Silicon Valley</option>
+          </select>
+        </div>
+      </div>
+    </form>
+</div>
 
 <% include layouts/footer.ejs %>

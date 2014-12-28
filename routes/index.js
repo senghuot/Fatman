@@ -25,7 +25,11 @@ router.get('/about', function(req, res){
 router.get('/post', before.auth, function(req, res){
 	res.render('post', {
 		title: 'POST',
-		post: 'active'
+		post: 'active',
+		csrfToken: req.csrfToken(),
+		errors: req.flash('errors'),
+		oldInput: req.flash('oldInput'),
+		message: req.flash('message')
 	});
 });
 
