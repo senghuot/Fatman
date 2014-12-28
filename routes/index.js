@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var User = require('./../models/user')
+var Location = require('./../models/location');
 
 var before = require('./../before');
 
@@ -15,22 +16,27 @@ router.get('/', function(req, res) {
 });
 
 /* GET about page. */
-router.get('/about', function(req, res){
-	res.render('about', {
-		title: 'ABOUT',
+router.get('/development', function(req, res){
+	res.render('development', {
+		title: 'DEVELOPMENT',
 		about: 'active'
 	});
 });
 
 /* GET post page. */
 router.get('/post', before.auth, function(req, res){
-	res.render('post', {
-		title: 'POST',
-		post: 'active',
-		csrfToken: req.csrfToken(),
-		errors: req.flash('errors'),
-		oldInput: req.flash('oldInput'),
-		message: req.flash('message')
+	Location.find().sort({city: 1}).exec(function(err, locations){
+		if (err) console.log(err);
+		else
+			res.render('post', {
+				title: 'POST',
+				post: 'active',
+				csrfToken: req.csrfToken(),
+				errors: req.flash('errors'),
+				oldInput: req.flash('oldInput'),
+				message: req.flash('message'),
+				locations: locations
+			});
 	});
 });
 

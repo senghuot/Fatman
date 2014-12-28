@@ -17,6 +17,7 @@
 
 <div class="container mtb">
     <form class="form-horizontal" method="POST" action="/post">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <div class="form-group">
         <label class="control-label col-sm-2"> Category: </label>
         <label class="control-label col-sm-1"> SmartPhones </label>
@@ -39,7 +40,7 @@
       <div class="form-group">
         <label class="control-label col-sm-2"> Photos: </label>
         <div class="col-sm-10">
-          <button class="btn btn-default" type="submit">Add Photos</button>
+          <input type='file' class="btn btn-default" value="Add Photos" />
           <p class="help-block">Add up to 12 photos.</p>
         </div>
       </div>
@@ -66,10 +67,14 @@
         <label class="control-label col-sm-2"> Location: </label>
         <div class="col-sm-3">
           <select class="form-control">
-            <option>Seattle</option>
-            <option>Tacoma</option>
-            <option>Moutain View</option>
-            <option>Silicon Valley</option>
+            <option value="0">City</option>
+            <% for (var i = 0; i < locations.length; i++) { %>
+            	<% if (locations[i].city === 'phnom penh') { %>
+            		<option value="<%= locations[i]._id %>" selected="selected"> <%= locations[i].city.toUpperCase() %> </option>
+            	<% } else { %>
+            		<option value="<%= locations[i]._id %>"> <%= locations[i].city.toUpperCase() %> </option>
+            	<% } %>
+            <% } %>
           </select>
         </div>
       </div>

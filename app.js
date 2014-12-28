@@ -48,11 +48,21 @@ app.use(csrf());
 app.use(passport.initialize());
 app.use(passport.session());
 
-// give user object to every route
+// give user & location object to every route
+var Location = require("./models/location");
 app.use(function(req, res, next){
-    res.locals.isAuthenticated = req.isAuthenticated();
-    res.locals.user = req.user;
-    next();
+
+    Location.find().sort({city: 1}).exec(function(err, locations){
+        if (err)
+            console.log(err);
+        else{
+            res.locals.isAuthenticated = req.isAuthenticated();
+            res.locals.user = req.user;
+            res.locals.locations = locations;
+            next();
+        }
+            
+    });
 });
 
 // routes
