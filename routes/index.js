@@ -29,6 +29,14 @@ router.get('/contact', function(req, res){
 	});
 });
 
+/* GET post page. */
+router.get('/post', before.auth, function(req, res){
+	res.render('post', {
+		title: 'POST',
+		post: 'active'
+	});
+});
+
 /* GET signup page. */
 router.get('/signup', before.guest, function(req, res){
 	

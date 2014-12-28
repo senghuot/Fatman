@@ -15,15 +15,15 @@
         <li class="<% if (typeof home != 'undefined') { %> <%= home %> <% } %>"><a href="/">HOME</a></li>
         <li class="<% if (typeof about != 'undefined') { %> <%= about %> <% } %>"><a href="/about">ABOUT</a></li>
         <li class="<% if (typeof contact != 'undefined') { %> <%= contact %> <% } %>"><a href="/contact">CONTACT</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">PAGES <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="blog.html">BLOG</a></li>
-            <li><a href="single-post.html">SINGLE POST</a></li>
-            <li><a href="portfolio.html">PORTFOLIO</a></li>
-            <li><a href="single-project.html">SINGLE PROJECT</a></li>
-          </ul>
-        </li>
+        <li class="<% if (typeof post != 'undefined') { %> <%= post %> <% } %>"><a href="/post">POST</a></li>
+        <% if (isAuthenticated) { %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= user.fname.toUpperCase() %><b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/authenticate/logout">Logout</a></li>
+            </ul>
+          </li>
+        <% } %>
       </ul>
     </div><!--/.nav-collapse -->
   </div>

@@ -1,5 +1,6 @@
 // var exports = module.exports{};
 
+// check for authenticated user
 exports.auth = function(req, res, next){
 	if (req.isAuthenticated())
         next();
@@ -9,6 +10,7 @@ exports.auth = function(req, res, next){
     }
 }
 
+// check for guest user
 exports.guest = function(req, res, next){
 	if (req.isAuthenticated()){
 		res.redirect('/');
