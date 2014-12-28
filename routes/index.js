@@ -21,14 +21,6 @@ router.get('/about', function(req, res){
 	});
 });
 
-/* GET contact page. */
-router.get('/contact', function(req, res){
-	res.render('contact', {
-		title: 'CONTACT',
-		contact: 'active'
-	});
-});
-
 /* GET post page. */
 router.get('/post', before.auth, function(req, res){
 	res.render('post', {
@@ -39,7 +31,6 @@ router.get('/post', before.auth, function(req, res){
 
 /* GET signup page. */
 router.get('/signup', before.guest, function(req, res){
-	
 	res.render('signup', 
 		{
 			title: 'Sign Up',

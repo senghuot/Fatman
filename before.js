@@ -1,5 +1,3 @@
-// var exports = module.exports{};
-
 // check for authenticated user
 exports.auth = function(req, res, next){
 	if (req.isAuthenticated())
