@@ -9,7 +9,8 @@ var before = require('./../before');
 router.get('/', function(req, res) {
 	res.render('index', { 
 		title: 'HOME',
-		home: 'active'
+		home: 'active',
+		message: req.flash('message')
 	});
 });
 
@@ -97,9 +98,9 @@ router.post('/signup', before.guest, function(req, res){
 				req.flash('message', message);
 				req.flash('oldInput', req.body);
 				res.redirect('/signup');
-			}else{
+			}else{	// sign up successfully
 				req.flash('message', 'You have successfully signed up');
-				res.redirect('/signup');	
+				res.redirect('/');	
 			}
 
 		});
