@@ -16,6 +16,21 @@
 </div><!-- /blue -->
 
 <div class="container mtb" ng-app="postApp" ng-controller="FormController as form">
+    <% if ( errors != '' ) {%>
+    <div class="alert alert-danger" role="alert">
+      <ul>
+        <% for (var key in errors[0]) { %>
+        <li> <%= errors[0][key].msg %> </li>
+        <% } %>
+        <ul>
+    </div>
+    <% } %>
+
+    <% if (message != '') {%>
+    <div class="alert alert-warning" role="alert">
+      <%= message[0] %>
+    </div>
+    <% } %>
 
     <form class="form-horizontal" method="POST" action="/post" enctype="multipart/form-data">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -23,7 +38,6 @@
         <label class="control-label col-sm-2"> Category: </label>
         <div class='col-sm-10'>
           <select name="category" class="form-control" ng-change="form.changeCateg()" ng-model="form.selectedCateg" ng-options="categ.type | uppercase for categ in form.categories track by categ._id">
-            
           </select>
         </div>
       </div>
@@ -53,7 +67,7 @@
       <div class="form-group">
         <label class="control-label col-sm-2"> Photos: </label>
         <div class="col-sm-10">
-          <input name='pics' type='file' multiple="mutliple"/>
+          <input name='photos' type='file' multiple="multiple"/>
           <p class="help-block">Add up to 12 photos.</p>
         </div>
       </div>
@@ -61,7 +75,7 @@
       <div class="form-group">
         <label class="control-label col-sm-2"> Details: </label>
         <div class="col-sm-10">
-          <textarea class="form-control" rows="3"></textarea>
+          <textarea name="details" class="form-control" rows="3"></textarea>
         </div>
       </div>
 

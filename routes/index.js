@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
-
-var User = require('./../models/user')
+var Post = require('./../models/post');
+var User = require('./../models/user');
 var Location = require('./../models/location');
-
+var fs = require('fs');
 var before = require('./../before');
 
 /* GET home page. */
@@ -46,7 +46,72 @@ router.get('/post', before.auth, function(req, res){
 });
 
 router.post('/post', function(req, res){
-	console.log(req.body.title);
+	// trim out the whitespaces
+	var category = (req.body.category != undefined) ? req.body.category.trim() : '';
+	var subCategory = (req.body.subCategory != undefined) ? req.body.subCategory.trim() : '';
+	var title = (req.body.title != undefined) ? req.body.title.trim() : '';
+	var condition = (req.body.title != undefined) ? req.body.condition.trim() : '';
+	var details = (req.body.title != undefined) ? req.body.details.trim() : '';
+	var price = (req.body.title != undefined) ? req.body.price.trim() : '';
+	var location = (req.body.location != undefined) ? req.body.location.trim() : '';
+
+	// assertions then create an error map object
+	req.assert('category', 'Category is required').notEmpty();
+	req.assert('subCategory', 'Sub Category is required').notEmpty();
+	req.assert('title', 'Title is required').notEmpty();
+	req.assert('condition', 'Condition is required').notEmpty();
+	req.assert('details', 'Details is required').notEmpty();
+	req.assert('price', 'Price is required').notEmpty();
+	req.assert('location', 'Location is required').notEmpty();
+	var mapErrors = req.validationErrors(true);
+
+	// mapErrors exists then we know there are some errors to handle
+	if (mapErrors) {
+		req.flash('errors', mapErrors);
+		req.flash('oldInput', req.body);
+		res.redirect('/post');
+	} else {
+		// get expiration date
+		var date = new Date();
+		date.setDate(date.getDate() + 7);
+		var post = new Post();
+		post.sub_category_id = subCategory;
+		post.title = title;
+		post.condition = condition;
+		post.description = details;
+		post.price = price;
+		post.location = location;
+		post.expiration_date = date;
+		post.user_id = req.session.passport.user;
+
+		// save it to database then save photos
+		post.save( function(err) {
+			if (err)
+				console.log(err);
+			else {
+				// convert an object to an array
+				var photos = [];
+				if (Object.prototype.toString.call(req.files.photos) === '[object Array]')
+					photos = req.files.photos;
+				else
+					photos.push(req.files.photos);
+
+				// update all the photos
+				for (var i = 0; i < photos.length; i++) {
+					var data = fs.readFileSync(photos[i].path);
+
+					// move the files from tmp to upload folders
+					var extension = '_' + i + '.jpg';
+					var relativePath = 'uploads/posts/' + post._id + extension;
+					fs.writeFileSync("./public/" + relativePath, data);
+					post.pictures.push(relativePath);
+					post.save( function(err) {
+						if (err) console.log(err);
+					});
+				}
+			}
+		});
+	}
 });
 
 /* GET signup page. */
@@ -65,7 +130,7 @@ router.get('/signup', before.guest, function(req, res){
 /* POST signup page. */
 router.post('/signup', before.guest, function(req, res){
 	// to trim input
-	req.body.fname = req.body.fname.trim();
+	req.body.fname = (req.body.fname != undefined) ? req.body.fname.trim() : '';
 
 	// validate input
 	req.assert('fname', 'First Name must contains only characters').isAlpha();

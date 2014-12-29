@@ -32,11 +32,11 @@ passport.use(new passportLocal.Strategy({
 ));
 
 passport.serializeUser(function(user, done){
-    done(null, user.email);
+    done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done){
-    User.findOne({email: id}, function(err, user){
+    User.findOne({_id: id}, function(err, user){
         if (err)
             console.log(err);
         else{
