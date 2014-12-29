@@ -3,9 +3,10 @@ var Schema = mongoose.Schema;
 
 var sub_categorySchema = Schema({
   type: String,
-  category_id:{
-  	type: Schema.Types.ObjectId
+  category:{
+  	type: Schema.Types.ObjectId,
+  	ref : 'Category'
   } 
 });
 
-module.exports = mongoose.model('sub_category', sub_categorySchema);
+module.exports = mongoose.model('Sub_Category', sub_categorySchema);
