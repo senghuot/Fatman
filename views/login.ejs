@@ -17,15 +17,13 @@
 	
 <div class="container mtb">
 	<div class="row col-md-8 col-md-offset-2">
-
 		<form method="post" action="">
 		  <% if (message != '') { %>
 			<div class="alert alert-danger" role="alert">
 				<%= message %>
 			</div>
-		  <% } %>	
-
-			<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+		  <% } %>
+		  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 		  <div class="form-group">
 		    <input name="email" type="email" class="form-control" id="email" placeholder="Email">
 		  </div>

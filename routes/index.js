@@ -46,9 +46,7 @@ router.get('/post', before.auth, function(req, res){
 });
 
 router.post('/post', function(req, res){
-	console.log(req.body);
-	res.send(req.files);
-
+	console.log(req.body.title);
 });
 
 /* GET signup page. */

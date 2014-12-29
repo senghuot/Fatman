@@ -23,7 +23,6 @@ passport.use(new passportLocal.Strategy({
 
                 if (!user.validatePassword(password)){
                     return done(null, false, {message: 'Incorrect username or password.'});
-                    
                 }
                 
                 return done(null, {id: user._id, fname: user.fname, lname: user.lname, email: user.email});    
@@ -33,7 +32,7 @@ passport.use(new passportLocal.Strategy({
 ));
 
 passport.serializeUser(function(user, done){
-    done(null, user.email);    
+    done(null, user.email);
 });
 
 passport.deserializeUser(function(id, done){
