@@ -12,6 +12,8 @@ var expressValidator = require('express-validator');
 var passport = require('./auth');
 var csrf = require('csurf');
 var app = express();
+var multipart = require('connect-multiparty');
+
 
 // include the routes
 var routes = require('./routes/index');
@@ -42,11 +44,13 @@ app.use(expressSession({
 }));
 app.use(flash());
 app.use(expressValidator());
-app.use(csrf());
 
 // passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(multipart());
+app.use(csrf());
+
 
 // give user & location object to every route
 var Location = require("./models/location");

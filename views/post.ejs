@@ -15,12 +15,25 @@
     </div> <!-- /container -->
 </div><!-- /blue -->
 
-<div class="container mtb">
-    <form class="form-horizontal" method="POST" action="/post">
+<div class="container mtb" ng-app="postApp" ng-controller="FormController as form">
+
+    <form class="form-horizontal" method="POST" action="/post" enctype="multipart/form-data">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <div class="form-group">
         <label class="control-label col-sm-2"> Category: </label>
-        <label class="control-label col-sm-1"> SmartPhones </label>
+        <div class='col-sm-10'>
+          <select name="category" class="form-control" ng-change="form.changeCateg()" ng-model="form.selectedCateg" ng-options="categ.type | uppercase for categ in form.categories track by categ._id">
+            
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2"> Sub Category: </label>
+        <div class='col-sm-10'>
+          <select name="subCategory" class="form-control" ng-options="subCateg.type | uppercase for subCateg in form.viewSubCateg track by subCateg._id" ng-model="form.selectedSubCateg">
+          </select>
+        </div>
       </div>
 
       <div class="form-group">
@@ -33,14 +46,14 @@
       <div class="form-group">
         <label class="control-label col-sm-2"> Condition: </label>
         <div class="col-sm-10">
-          <input name="title" type="text" class="form-control" id="title" placeholder="Condition" <% if (oldInput != '') { %> value="<%= oldInput[0].condition %>" <% } %>>
+          <input name="condition" type="text" class="form-control" id="title" placeholder="Condition" <% if (oldInput != '') { %> value="<%= oldInput[0].condition %>" <% } %> ng-model="form.input.condition">
         </div>
       </div>
 
       <div class="form-group">
         <label class="control-label col-sm-2"> Photos: </label>
         <div class="col-sm-10">
-          <input type='file' class="btn btn-default" value="Add Photos" />
+          <input name='pics' type='file' multiple="mutliple"/>
           <p class="help-block">Add up to 12 photos.</p>
         </div>
       </div>
@@ -57,7 +70,7 @@
         <div class="col-sm-3">
           <div class="input-group">
             <div class="input-group-addon">$</div>
-            <input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
+            <input name="price" type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
             <div class="input-group-addon">.00</div>
           </div>
         </div>
@@ -66,7 +79,7 @@
       <div class="form-group">
         <label class="control-label col-sm-2"> Location: </label>
         <div class="col-sm-3">
-          <select class="form-control">
+          <select class="form-control" name="location">
             <option value="0">City</option>
             <% for (var i = 0; i < locations.length; i++) { %>
             	<% if (locations[i].city === 'phnom penh') { %>
@@ -78,6 +91,7 @@
           </select>
         </div>
       </div>
+      <input type='submit' value='POST' />
     </form>
 </div>
 

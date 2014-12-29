@@ -27,7 +27,10 @@ router.get('/development', function(req, res){
 router.get('/post', before.auth, function(req, res){
 	Location.find().sort({city: 1}).exec(function(err, locations){
 		if (err) console.log(err);
-		else
+		else{
+			var scripts = [];
+			scripts.push("/js/angular/post.js");
+
 			res.render('post', {
 				title: 'POST',
 				post: 'active',
@@ -35,9 +38,17 @@ router.get('/post', before.auth, function(req, res){
 				errors: req.flash('errors'),
 				oldInput: req.flash('oldInput'),
 				message: req.flash('message'),
-				locations: locations
+				locations: locations,
+				scripts: scripts
 			});
+		}
 	});
+});
+
+router.post('/post', function(req, res){
+	console.log(req.body);
+	res.send(req.files);
+
 });
 
 /* GET signup page. */

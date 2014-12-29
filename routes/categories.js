@@ -7,7 +7,7 @@ var Sub_Category = require("./../models/sub_category");
 /* GET categories listing. */
 router.get('/', function(req, res) {
   Category.find(function(err, categories){
-    res.send(categories);
+    res.json(categories);
   });
 });
 
@@ -46,8 +46,8 @@ router.get('/sub_categories/:sub_category', function(req, res){
 
 });
 
-router.get('/sub_categories/put/:sub_category', function(req, res){
-  Category.findOne({type: "electronic"}, function(err, electronic){
+router.get('/sub_categories/put/:sub_category/:category', function(req, res){
+  Category.findOne({type: req.params.category}, function(err, electronic){
 
     var sub_category = new Sub_Category({
       type: req.params.sub_category,
