@@ -32,12 +32,25 @@
     </div>
     <% } %>
 
-    <form class="form-horizontal" method="POST" action="/post" enctype="multipart/form-data">
+    <div ng-show="postForm.$dirty && postForm.$invalid && form.invalid">
+      <div class="alert alert-danger">
+        <ul>
+          <li ng-show="postForm.$dirty && postForm.category.$error.required">Category is required</li>
+          <li ng-show="postForm.$dirty && postForm.subCategory.$error.required">Sub category is required</li>
+          <li ng-show="postForm.$dirty && postForm.title.$error.required">Title is required</li>
+          <li ng-show="postForm.$dirty && postForm.condition.$error.required">Condition is required</li>
+          <li ng-show="postForm.$dirty && postForm.details.$error.required">Details is required</li>
+          <li ng-show="postForm.$dirty && postForm.price.$error.required">Price is required</li>
+        </ul>
+      </div>
+    </div>
+
+    <form class="form-horizontal" method="POST" action="/post" enctype="multipart/form-data" ng-submit="form.submit($event)" name="postForm">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <div class="form-group">
         <label class="control-label col-sm-2"> Category: </label>
         <div class='col-sm-10'>
-          <select name="category" class="form-control" ng-change="form.changeCateg()" ng-model="form.selectedCateg" ng-options="categ.type | uppercase for categ in form.categories track by categ._id">
+          <select name="category" class="form-control" ng-change="form.changeCateg()" ng-model="form.selectedCateg" ng-options="categ.type | uppercase for categ in form.categories track by categ._id" required>
           </select>
         </div>
       </div>
@@ -45,7 +58,7 @@
       <div class="form-group">
         <label class="control-label col-sm-2"> Sub Category: </label>
         <div class='col-sm-10'>
-          <select name="subCategory" class="form-control" ng-options="subCateg.type | uppercase for subCateg in form.subCategories track by subCateg._id" ng-model="form.selectedSubCateg">
+          <select name="subCategory" class="form-control" ng-options="subCateg.type | uppercase for subCateg in form.subCategories track by subCateg._id" ng-model="form.selectedSubCateg" required>
           </select>
         </div>
       </div>
@@ -53,35 +66,47 @@
       <div class="form-group">
         <label class="control-label col-sm-2"> Title: </label>
         <div class="col-sm-10">
-          <input name="title" type="text" class="form-control" id="title" placeholder="Title" <% if (oldInput != '') { %> value="<%= oldInput[0].title %>" <% } %>>
+          <input name="title" type="text" class="form-control" id="title" placeholder="Title" <% if (oldInput != '') { %> value="<%= oldInput[0].title %>" <% } %> ng-model="form.title" required>
         </div>
       </div>
 
       <div class="form-group">
         <label class="control-label col-sm-2"> Condition: </label>
         <div class="col-sm-10">
-          <input name="condition" type="text" class="form-control" id="title" placeholder="Condition" <% if (oldInput != '') { %> value="<%= oldInput[0].condition %>" <% } %> ng-model="form.input.condition">
+          <select name="condition" class="form-control" required ng-model="form.selectedCondition">
+            <option value="new">NEW</option>
+            <option value="mint">MINT</option>
+            <option value="used">USED</option>
+          </select>
         </div>
       </div>
 
       <div class="form-group">
         <label class="control-label col-sm-2"> Photos: </label>
-        <div class="col-sm-10">
-          <input name='photos' type='file' ng-repeat="i in form.photos"/>
+        <div class="col-sm-2">
+          <input id='photos' name='photos' type='file' accept="image/*" multiple />
+        </div>
+        <div class="col-sm-8">
+          <span class="alert alert-info">Add up to 12 photos. Each photo is 5MB max.</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="control-label col-sm-2"></label>
+        <label class="control-label col-sm-2"> </label>
         <div class="col-sm-10">
-          <input ng-click="form.addPhoto()" type="button" class="btn btn-default" value="Add More Photo"/> Add up to {{form.photoLeft}} photos more
+          <ul ng-show="form.photos.length || form.photosGT12 || form.photosNeed" class="alert alert-danger">
+            <li ng-show="form.photosNeed">Need at least one photo</li>
+            <li ng-show="form.photosGT12">Photos exceed 12</li>
+            <li ng-show="form.photos.length">Photo maximum size is 5 MB</li>
+            <li ng-show="form.photos.length" ng-repeat="photo in form.photos">{{photo.name}} is {{photo.size}} MB</li>
+          </ul>
         </div>
       </div>
 
       <div class="form-group">
         <label class="control-label col-sm-2"> Details: </label>
         <div class="col-sm-10">
-          <textarea name="details" class="form-control" rows="3"></textarea>
+          <textarea name="details" class="form-control" rows="3" required ng-model="form.details"></textarea>
         </div>
       </div>
 
@@ -90,7 +115,7 @@
         <div class="col-sm-3">
           <div class="input-group">
             <div class="input-group-addon">$</div>
-            <input name="price" type="number" class="form-control" id="exampleInputAmount" placeholder="Amount">
+            <input name="price" type="number" class="form-control" id="exampleInputAmount" placeholder="Amount" ng-model="form.price" required>
             <div class="input-group-addon">.00</div>
           </div>
         </div>
