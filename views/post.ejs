@@ -98,7 +98,7 @@
             <li ng-show="form.photosNeed">Need at least one photo</li>
             <li ng-show="form.photosGT12">Photos exceed 12</li>
             <li ng-show="form.photos.length">Photo maximum size is 5 MB</li>
-            <li ng-show="form.photos.length" ng-repeat="photo in form.photos">{{photo.name}} is {{photo.size}} MB</li>
+            <li ng-show="form.photos.length" ng-repeat="photo in form.photos">{{photo.name}} is {{photo.size/1024/1024 | number:4}} MB</li>
           </ul>
         </div>
       </div>
