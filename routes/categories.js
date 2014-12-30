@@ -6,7 +6,8 @@ var Sub_Category = require("./../models/sub_category");
 
 /* GET categories listing. */
 router.get('/', function(req, res) {
-  Category.find(function(err, categories){
+  Category.find().populate('sub_categories').exec(function(err, categories){
+    console.log(categories);
     res.json(categories);
   });
 });
@@ -65,27 +66,16 @@ router.get('/sub_categories/put/:sub_category/:category', function(req, res){
 });
 
 router.get('/pop', function(req, res){
-  // var category = new Category();
-  // category.type = "electronic";
-  
-  Category.findOne({type: 'electronic'}, function(err, category){
-    
-    var phone = new Sub_Category({
-      type: "laptop",
-      category: category._id
-    });
-
-    phone.save(function(err){
-      if (err) console.log(err);
-      category.sub_categories.push(phone);
-      
-      category.save(function(err){
-        res.send("success");
-      });
-
-    });
-  });
-
+  // Category.findOne({type: 'automobile'}, function(err, auto){
+  //   Sub_Category.find({$or: [ {type: 'moto bike'}, {type: 'car'} ]}, function(err, autoSubs){
+  //     autoSubs.forEach(function(autoSub){
+  //       console.log(autoSub);
+  //       auto.sub_categories.push(autoSub);
+  //     });
+  //     auto.save();
+  //     res.send(autoSubs);
+  //   });
+  // });
 });
 
 router.get('/getCat', function(req, res){

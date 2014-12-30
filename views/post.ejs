@@ -45,7 +45,7 @@
       <div class="form-group">
         <label class="control-label col-sm-2"> Sub Category: </label>
         <div class='col-sm-10'>
-          <select name="subCategory" class="form-control" ng-options="subCateg.type | uppercase for subCateg in form.viewSubCateg track by subCateg._id" ng-model="form.selectedSubCateg">
+          <select name="subCategory" class="form-control" ng-options="subCateg.type | uppercase for subCateg in form.subCategories track by subCateg._id" ng-model="form.selectedSubCateg">
           </select>
         </div>
       </div>

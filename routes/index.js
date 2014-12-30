@@ -45,6 +45,11 @@ router.get('/post', before.auth, function(req, res){
 	});
 });
 
+router.post('/posttest', function(req, res){
+	console.log(req.body);
+	res.send(req.body);
+});
+
 router.post('/post', function(req, res){
 	// trim out the whitespaces
 	var category = (req.body.category != undefined) ? req.body.category.trim() : '';
