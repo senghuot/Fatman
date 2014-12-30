@@ -11,12 +11,21 @@ var postSchema = Schema({
   expiration_date:  Date,
   price:            Number,
   condition:        String,
-  pictures:          [String],
+  pictures:         [String],
   
   // collection references
-  sub_category_id: {type: Schema.Types.ObjectId},
-  location_id: {type: Schema.Types.ObjectId},
-  user_id: {type: Schema.Types.ObjectId}
+  sub_category: {
+    type: Schema.Types.ObjectId,
+    ref: 'sub_category'
+  },
+  location: {
+    type: Schema.Types.ObjectId,
+    ref: 'Location'
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
 });
 
-module.exports = mongoose.model('post', postSchema);
+module.exports = mongoose.model('Post', postSchema);

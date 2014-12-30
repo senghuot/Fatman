@@ -6,7 +6,11 @@ var userSchema = Schema({
   email: {type: String, unique: true},
   fname: String,
   lname: String,
-  password: String
+  password: String,
+  posts:[{
+  	type: Schema.Types.ObjectId,
+  	ref: 'Post'
+  }]
 });
 
 // mehtod for comparing password

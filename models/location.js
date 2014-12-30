@@ -2,7 +2,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var locationSchema = Schema({
-  city: String
+  city: String,
+  posts: [{
+  	type: Schema.Types.ObjectId,
+  	ref: 'Post'
+  }]
 });
 
-module.exports = mongoose.model('location', locationSchema);
+module.exports = mongoose.model('Location', locationSchema);
