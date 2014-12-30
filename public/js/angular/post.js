@@ -8,6 +8,17 @@
 
 		this.subCategories = [];
 
+		this.photos = [0];
+		this.photoIndex = 1;
+		this.photoLeft = 11;
+
+		this.addPhoto = function(){
+			if (this.photoLeft > 0){
+				this.photos.push(this.photoIndex++);
+				this.photoLeft--;
+			}
+		}
+
 		this.changeCateg = function(){
 			
 			this.subCategories = this.selectedCateg.sub_categories;
