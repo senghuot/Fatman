@@ -1,0 +1,33 @@
+<% include layouts/header.ejs %>
+
+<body>
+
+<% include layouts/menu.ejs %>
+
+<!-- *****************************************************************************************************************
+ BLUE WRAP
+ ***************************************************************************************************************** -->
+<div id="blue">
+    <div class="container">
+		<div class="row">
+			<h3>CREATE CATEGORY.</h3>
+		</div><!-- /row -->
+    </div> <!-- /container -->
+</div><!-- /blue -->
+
+<div class="container mtb">
+	<%= message %><br/>
+
+	<% for (var i = 0; i < categories.length; i++) { %>
+		<%= categories[i].type %> <br/>
+	<% } %>
+
+	<form method="post" action="">
+		<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+		Category: <input type="text" name="category" />
+		<br><input type="submit" value="submit">
+	</form>
+</div>
+
+<% include layouts/footer.ejs %>

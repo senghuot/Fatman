@@ -98,4 +98,71 @@ router.get('/getSub', function(req, res){
   });
 });
 
+router.get("/post", function(req, res){
+  Category.find(function(err, categories){
+    if (err) console.log(err);
+    else{
+      res.render('category', {
+        title: "POST CATEGORY",
+        categories: categories,
+        message: req.flash('message'),
+        csrfToken: req.csrfToken()
+      });
+    }
+  });
+});
+
+router.post('/post', function(req, res){
+  var cat = new Category();
+  cat.type = req.body.category;
+
+  cat.save(function(err){
+    if (err) console.log(err);
+    else{
+      req.flash('message', 'category added');
+      res.redirect("/categories/post");
+    }
+  });
+});
+
+router.get("/subcategories/post", function(req, res){
+  Category.find().populate("sub_categories").exec(function(err, categories){
+    if (err) console.log(err);
+    else{
+      console.log(categories);
+      res.render('subCategory', {
+        title: "POST SUBCATEGORY",
+        categories: categories,
+        message: req.flash('message'),
+        csrfToken: req.csrfToken()
+      });
+    }
+  });
+});
+
+router.post("/subcategories/post", function(req, res){
+  Category.findOne({_id: req.body.category}, function(err, category){
+    var subCat = new Sub_Category();
+    subCat.type = req.body.subcategory;
+    subCat.category = category._id;
+
+    subCat.save(function(err){
+      if (err) console.log(err);
+      else{
+        category.sub_categories.push(subCat);
+        category.save(function(err){
+          if (err) console.log(err);
+          else{
+            req.flash('message', 'sub category added successfully');
+            res.redirect("/categories/subcategories/post");
+          }
+        });
+      }
+    });
+    
+  });
+});
+
+
+
 module.exports = router;

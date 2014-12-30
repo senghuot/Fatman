@@ -1,0 +1,47 @@
+<% include layouts/header.ejs %>
+
+<body>
+
+<% include layouts/menu.ejs %>
+
+<!-- *****************************************************************************************************************
+ BLUE WRAP
+ ***************************************************************************************************************** -->
+<div id="blue">
+    <div class="container">
+		<div class="row">
+			<h3>CREATE SUBCATEGORY.</h3>
+		</div><!-- /row -->
+    </div> <!-- /container -->
+</div><!-- /blue -->
+
+<div class="container mtb">
+	<%= message %><br/>
+
+	<% for (var i = 0; i < categories.length; i++) { %>
+		
+			<%= categories[i].type %><br/>
+			<% 
+				var subCategories = categories[i].sub_categories 
+				for (var j = 0; j < subCategories.length; j++){
+			%>
+					---------<%= subCategories[j].type %><br/>
+			<% } %>
+		
+	<% } %>
+
+	<form method="post" action="">
+		<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+		<select name="category">
+			<% for (var i = 0; i < categories.length; i++) { %>
+				<option value="<%= categories[i]._id %>">
+					<%= categories[i].type %>
+				</option>
+			<% } %>
+		</select><br/>
+		Category: <input type="text" name="subcategory" />
+		<br><input type="submit" value="submit">
+	</form>
+</div>
+
+<% include layouts/footer.ejs %>
