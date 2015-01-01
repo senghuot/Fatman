@@ -25,7 +25,7 @@ passport.use(new passportLocal.Strategy({
                     return done(null, false, {message: 'Incorrect username or password.'});
                 }
                 
-                return done(null, user);    
+                return done(null, user);
             }
         );
     }

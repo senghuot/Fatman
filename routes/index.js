@@ -8,10 +8,17 @@ var before = require('./../before');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-	res.render('index', { 
-		title: 'HOME',
-		home: 'active',
-		message: req.flash('message')
+	Post.find(function(err, posts) {
+		if (err)
+			console.log(err);
+		else {
+			res.render('index', { 
+				title: 'HOME',
+				home: 'active',
+				message: req.flash('message'),
+				posts: posts
+			});
+		}
 	});
 });
 
@@ -80,12 +87,12 @@ router.post('/post', function(req, res){
 		var post = new Post();
 		post.title = title;
 		post.description = details;
-		post.sub_category_id = subCategory;
+		post.sub_category = subCategory;
 		post.expiration_date = date;
 		post.price = price;
 		post.condition = condition;
 		post.location = location;
-		post.user = req.session.passport.User;
+		post.user = req.user;
 
 		// save it to database then save photos
 		post.save( function(err) {
@@ -104,18 +111,38 @@ router.post('/post', function(req, res){
 					var data = fs.readFileSync(photos[i].path);
 
 					// move the files from tmp to upload folders
-					var extension = '_' + i + '.jpg';
-					var relativePath = 'uploads/posts/' + post._id + extension;
-					fs.writeFileSync("./public/" + relativePath, data);
+	        var extension = photos[i].type;
+	        var index = extension.lastIndexOf("/");
+	        extension = extension.substring(index + 1);
+					var relativePath = '/uploads/posts/' + post._id + extension;
+					fs.writeFileSync("./public" + relativePath, data);
 					post.pictures.push(relativePath);
 					post.save( function(err) {
 						if (err) console.log(err);
 					});
 				}
+				// pass post object
+				res.redirect('/display/' + post.id);
 			}
 		});
 	}
 });
+
+// GET display page.
+router.get('/display/:post_id', function(req, res) {
+	var post_id = req.params.post_id;
+	Post.findOne({_id: post_id}, function(err, post) {
+		if (err)
+			console.log(err)
+		else {
+			res.render('display', {
+			title: 'Display',
+			info: post
+		});
+		}
+	});
+});
+
 
 /* GET signup page. */
 router.get('/signup', before.guest, function(req, res){
@@ -197,4 +224,3 @@ router.post('/signup', before.guest, function(req, res){
 });
 
 module.exports = router;
-
