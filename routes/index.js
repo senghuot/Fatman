@@ -114,7 +114,7 @@ router.post('/post', function(req, res){
 	        var extension = photos[i].type;
 	        var index = extension.lastIndexOf("/");
 	        extension = extension.substring(index + 1);
-					var relativePath = '/uploads/posts/' + post._id + extension;
+					var relativePath = '/uploads/posts/' + post._id + "." + extension;
 					fs.writeFileSync("./public" + relativePath, data);
 					post.pictures.push(relativePath);
 					post.save( function(err) {
