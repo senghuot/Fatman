@@ -1,14 +1,21 @@
 var express = require('express');
 var router = express.Router();
-var Post = require('./../models/post');
-var User = require('./../models/user');
-var Location = require('./../models/location');
+
 var fs = require('fs');
 var before = require('./../before');
 
+// import models
+var Post = require('./../models/post');
+var User = require('./../models/user');
+var Location = require('./../models/location');
+var Sub_Category = require("./../models/sub_category");
+
 /* GET home page. */
 router.get('/', function(req, res) {
-	Post.find(function(err, posts) {
+	var subCat = Sub_Category.find().sort({'view': 1}).limit(5);
+
+	subCat.exec(function(err, subCategories){
+			
 		if (err)
 			console.log(err);
 		else {
@@ -16,9 +23,10 @@ router.get('/', function(req, res) {
 				title: 'HOME',
 				home: 'active',
 				message: req.flash('message'),
-				posts: posts
+				subCategories: subCategories
 			});
 		}
+			
 	});
 });
 
@@ -111,18 +119,35 @@ router.post('/post', function(req, res){
 					var data = fs.readFileSync(photos[i].path);
 
 					// move the files from tmp to upload folders
-	        var extension = photos[i].type;
-	        var index = extension.lastIndexOf("/");
-	        extension = extension.substring(index + 1);
+			        var extension = photos[i].type;
+			        var index = extension.lastIndexOf("/");
+			        extension = extension.substring(index + 1);
+
 					var relativePath = '/uploads/posts/' + post._id + "." + extension;
+
 					fs.writeFileSync("./public" + relativePath, data);
 					post.pictures.push(relativePath);
-					post.save( function(err) {
-						if (err) console.log(err);
-					});
 				}
-				// pass post object
-				res.redirect('/display/' + post.id);
+
+				post.save( function(err) {
+					if (err) console.log(err);
+					else{
+						Sub_Category.findOne({_id: subCategory}, function(err, subCat){
+							if (err) console.log(err);
+							else{
+								console.log(subCat);
+								console.log(post);
+								subCat.posts.push(post);
+								subCat.save(function(err){
+									if (err) console.log(err);
+									else
+										// pass post object
+										res.redirect('/display/' + post.id);
+								});
+							}
+						});	
+					}
+				});
 			}
 		});
 	}

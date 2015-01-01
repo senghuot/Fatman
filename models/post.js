@@ -20,7 +20,7 @@ var postSchema = Schema({
   // collection references
   sub_category: {
     type: Schema.Types.ObjectId,
-    ref: 'sub_category'
+    ref: 'Sub_Category'
   },
   location: {
     type: Schema.Types.ObjectId,
