@@ -55,7 +55,7 @@ app.use(csrf());
 // give user & location object to every route
 var Location = require("./models/location");
 app.use(function(req, res, next){
-
+    
     Location.find().sort({city: 1}).exec(function(err, locations){
         if (err)
             console.log(err);

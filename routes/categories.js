@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
 
 var Category = require("./../models/category");
 var Sub_Category = require("./../models/sub_category");
@@ -7,6 +8,13 @@ var Sub_Category = require("./../models/sub_category");
 /* GET categories listing. */
 router.get('/', function(req, res) {
   Category.find().populate('sub_categories').exec(function(err, categories){
+    // console.log(categories);
+    res.json(categories);
+  });
+});
+
+router.get('/type/:type', function(req, res) {
+  Category.find({type: new RegExp(req.params.type, "i")}).populate('sub_categories').exec(function(err, categories){
     console.log(categories);
     res.json(categories);
   });
@@ -99,7 +107,7 @@ router.get('/getSub', function(req, res){
 });
 
 router.get("/post", function(req, res){
-  Category.find(function(err, categories){
+  Category.find().populate("sub_categories").exec(function(err, categories){
     if (err) console.log(err);
     else{
       res.render('category', {
@@ -152,10 +160,26 @@ router.post("/subcategories/post", function(req, res){
         category.sub_categories.push(subCat);
         category.save(function(err){
           if (err) console.log(err);
-          else{
-            req.flash('message', 'sub category added successfully');
-            res.redirect("/categories/subcategories/post");
-          }
+        });
+
+        var pic = req.files.picture;
+
+        // get picture byte code
+        var data = fs.readFileSync(pic.path);
+        
+        // get original extension
+        var extension = pic.type;
+        var index = extension.lastIndexOf("/");
+        extension = extension.substring(index + 1);
+
+        var relativePath = "/img/subcategory/" + subCat._id + "." + extension;
+        fs.writeFileSync("./public" + relativePath, data);
+
+        subCat.picture = relativePath;
+
+        subCat.save(function(err){
+          req.flash('message', 'sub category added successfully');
+          res.redirect("/categories/subcategories/post"); 
         });
       }
     });
@@ -163,6 +187,30 @@ router.post("/subcategories/post", function(req, res){
   });
 });
 
+router.get('/remove/:id', function(req, res){
+  Category.findOne({_id: req.params.id}, function(err, cat){
+    var subs = cat.sub_categories;
+    Sub_Category.find({category: cat._id}).remove(function(err){
+      cat.remove();
+      res.redirect('/categories/post');
+    });
+  });
+});
 
+router.get('/subcategories/remove/:id', function(req, res){
+  Category.findOne({sub_categories: req.params.id}, function(err, cat){
+    var subCats = cat.sub_categories;
+    var index = subCats.indexOf(req.params.id);
+
+    subCats.splice(index, 1);
+    console.log(subCats);
+
+    cat.save(function(err){
+      Sub_Category.findOne({_id: req.params.id}).remove(function(err){
+        res.redirect('/categories/subcategories/post');
+      });  
+    });
+  });
+});
 
 module.exports = router;

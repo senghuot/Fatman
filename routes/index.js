@@ -25,24 +25,21 @@ router.get('/development', function(req, res){
 
 /* GET post page. */
 router.get('/post', before.auth, function(req, res){
-	Location.find().sort({city: 1}).exec(function(err, locations){
-		if (err) console.log(err);
-		else{
-			var scripts = [];
-			scripts.push("/js/angular/post.js");
+	
+	
+	var scripts = [];	
+	scripts.push("/js/angular/post.js");
 
-			res.render('post', {
-				title: 'POST',
-				post: 'active',
-				csrfToken: req.csrfToken(),
-				errors: req.flash('errors'),
-				oldInput: req.flash('oldInput'),
-				message: req.flash('message'),
-				locations: locations,
-				scripts: scripts
-			});
-		}
+	res.render('post', {
+		title: 'POST',
+		post: 'active',
+		csrfToken: req.csrfToken(),
+		errors: req.flash('errors'),
+		oldInput: req.flash('oldInput'),
+		message: req.flash('message'),
+		scripts: scripts
 	});
+	
 });
 
 router.post('/posttest', function(req, res){
@@ -79,15 +76,16 @@ router.post('/post', function(req, res){
 		// get expiration date
 		var date = new Date();
 		date.setDate(date.getDate() + 7);
+		
 		var post = new Post();
-		post.sub_category_id = subCategory;
 		post.title = title;
-		post.condition = condition;
 		post.description = details;
-		post.price = price;
-		post.location = location;
+		post.sub_category_id = subCategory;
 		post.expiration_date = date;
-		post.user_id = req.session.passport.user;
+		post.price = price;
+		post.condition = condition;
+		post.location = location;
+		post.user = req.session.passport.User;
 
 		// save it to database then save photos
 		post.save( function(err) {
@@ -144,8 +142,8 @@ router.post('/signup', before.guest, function(req, res){
 	req.assert('lname', 'Last Name must contains only characters').isAlpha();
 	req.assert('lname', 'Last Name is required').notEmpty();
 
-	req.assert('email', 'Email is required').notEmpty();
 	req.assert('email', 'Email is not valid email address').isEmail();
+	req.assert('email', 'Email is required').notEmpty();
 
 	req.assert('confirmEmail', "Email is not matched").equals(req.body.email);
 
@@ -191,6 +189,7 @@ router.post('/signup', before.guest, function(req, res){
 		});
 
 	}else{ // validation fails
+		console.log(mapErrors);
 		req.flash('errors', mapErrors);
 		req.flash('oldInput', req.body);
 		res.redirect('/signup');

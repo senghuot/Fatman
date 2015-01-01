@@ -12,6 +12,10 @@ var postSchema = Schema({
   price:            Number,
   condition:        String,
   pictures:         [String],
+  view:             {
+                      type: Number,
+                      default: 0
+                    },
   
   // collection references
   sub_category: {

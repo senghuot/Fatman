@@ -47,4 +47,32 @@ router.get('/posts', function(req, res){
   });
 });
 
+router.get('/post', function(req, res){
+  res.render('locations',{
+    message: req.flash("message"),
+    title: "LOCATION",
+    csrfToken: req.csrfToken()
+  });
+});
+
+router.post('/post', function(req, res){
+  var location = new Location({
+    city: req.body.location
+  });
+
+  location.save(function(err){
+    if (err) return console.log(err);
+
+    res.redirect('/locations/post');
+  });
+});
+
+router.get("/remove/:id", function(req, res){
+  Location.find({_id: req.params.id}).remove(function(err){
+    if (err) return res.send(err);
+    res.redirect('/locations/post');  
+  });
+  
+});
+
 module.exports = router;

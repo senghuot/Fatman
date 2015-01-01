@@ -28,7 +28,7 @@ router.post('/login', function(req, res, next){
             if (err) return next(err);
 
             var IntendedPage = req.flash('IntendedPage');
-        
+            console.log("In authenticate /login: " + IntendedPage);
             if (IntendedPage == '')
                 return res.redirect('/');
             return res.redirect(IntendedPage);    

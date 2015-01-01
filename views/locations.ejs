@@ -10,7 +10,7 @@
 <div id="blue">
     <div class="container">
 		<div class="row">
-			<h3>CREATE CATEGORY.</h3>
+			<h3>CREATE LOCATION.</h3>
 		</div><!-- /row -->
     </div> <!-- /container -->
 </div><!-- /blue -->
@@ -18,22 +18,16 @@
 <div class="container mtb">
 	<%= message %><br/>
 
-	<% for (var i = 0; i < categories.length; i++) { %>
+	<% for (var i = 0; i < locations.length; i++) { %>
 		
-			<%= categories[i].type %><a href="/categories/remove/<%=categories[i]._id%>"> remove</a><br/>
-			<% 
-				var subCategories = categories[i].sub_categories 
-				for (var j = 0; j < subCategories.length; j++){
-			%>
-					---------<%= subCategories[j].type %> <a href="/categories/subcategories/remove/<%=subCategories[j]._id%>">remove</a><br/>
-			<% } %>
+			<%= locations[i].city %><a href="/locations/remove/<%=locations[i]._id%>"> remove</a><br/>
 		
 	<% } %>
 
 	<form method="post" action="">
 		<input type="hidden" name="_csrf" value="<%= csrfToken %>">
-
-		Category: <input type="text" name="category" />
+		
+		Location: <input type="text" name="location" />
 		<br><input type="submit" value="submit">
 	</form>
 </div>

@@ -20,17 +20,17 @@
 
 	<% for (var i = 0; i < categories.length; i++) { %>
 		
-			<%= categories[i].type %><br/>
+			<%= categories[i].type %><a href="/categories/remove/<%=categories[i]._id%>"> remove</a><br/>
 			<% 
 				var subCategories = categories[i].sub_categories 
 				for (var j = 0; j < subCategories.length; j++){
 			%>
-					---------<%= subCategories[j].type %><br/>
+					---------<img src="<%= subCategories[j].picture%>" width="80px" /><%= subCategories[j].type %> <a href="/categories/subcategories/remove/<%=subCategories[j]._id%>">remove</a><br/>
 			<% } %>
 		
 	<% } %>
 
-	<form method="post" action="">
+	<form method="post" action="" enctype="multipart/form-data">
 		<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 		<select name="category">
 			<% for (var i = 0; i < categories.length; i++) { %>
@@ -39,7 +39,8 @@
 				</option>
 			<% } %>
 		</select><br/>
-		Category: <input type="text" name="subcategory" />
+		Category: <input type="text" name="subcategory" /><br>
+		picture: <input type="file" name="picture" accept="image/*" />
 		<br><input type="submit" value="submit">
 	</form>
 </div>

@@ -25,7 +25,7 @@ passport.use(new passportLocal.Strategy({
                     return done(null, false, {message: 'Incorrect username or password.'});
                 }
                 
-                return done(null, {id: user._id, fname: user.fname, lname: user.lname, email: user.email});    
+                return done(null, user);    
             }
         );
     }
@@ -40,7 +40,7 @@ passport.deserializeUser(function(id, done){
         if (err)
             console.log(err);
         else{
-            done(null, {id: user._id, fname: user.fname, lname: user.lname, email: user.email});
+            done(null, user);
         }
     });
 });
