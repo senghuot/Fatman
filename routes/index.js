@@ -132,6 +132,12 @@ router.post('/post', function(req, res){
 				post.save( function(err) {
 					if (err) console.log(err);
 					else{
+						Location.findOne({_id: location}, function(err, locat){
+							locat.posts.push(post);
+							locat.save();
+						});
+
+
 						Sub_Category.findOne({_id: subCategory}, function(err, subCat){
 							if (err) console.log(err);
 							else{
