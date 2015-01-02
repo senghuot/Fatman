@@ -59,27 +59,45 @@
  <!-- *****************************************************************************************************************
  SERVICE LOGOS
  ***************************************************************************************************************** -->
+ <div id="portfoliowrap">
+    <h3>POPULAR POSTS</h3>
+
+    <div class="portfolio-centered">
+        <div class="recentitems portfolio">
+
+        	<% for (var i = 0; i < posts.length; i++) { %>
+				<div class="portfolio-item graphic-design">
+					<div class="he-wrap tpl6">
+						<img src="<%= posts[i].pictures[0] %>" alt="">
+						<div class="he-view">
+							<div class="bg a0" data-animate="fadeIn">
+                            	<h3 class="a1" data-animate="fadeInDown"><%= posts[i].title %></h3>
+                            	<h5 class="a1" data-animate="fadeInDown"><%= posts[i].description %></h5>
+                            	<a data-rel="prettyPhoto" href="<%= posts[i].pictures[0] %>" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>
+                            	<a href="/display/<%=posts[i].id%>" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
+                    		</div><!-- he bg -->
+						</div><!-- he view -->		
+					</div><!-- he wrap -->
+				</div><!-- end col-12 -->  		
+        	<% } %>
+                
+        </div><!-- portfolio -->
+    </div><!-- portfolio container -->
+ </div><!--/Portfoliowrap -->
+
  <div id="service">
  	<div class="container">
+ 			<h3 style="margin-bottom: 30px;"><center>POPULAR POSTS</center></h3>
 			<div class="row centered">
-				<div class="col-md-4">
-					<i class="fa fa-heart-o"></i>
-					<h4>Handsomely Crafted</h4>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-					<p><br/><a href="#" class="btn btn-theme">More Info</a></p>
-				</div>
-				<div class="col-md-4">
-					<i class="fa fa-flask"></i>
-					<h4>Retina Ready</h4>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-					<p><br/><a href="#" class="btn btn-theme">More Info</a></p>
-				</div>
-				<div class="col-md-4">
-					<i class="fa fa-trophy"></i>
-					<h4>Quality Theme</h4>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-					<p><br/><a href="#" class="btn btn-theme">More Info</a></p>
-				</div>		 				
+				<% for (var i = 0; i < posts.length; i++) { %>
+					<div class="col-sm-4">
+						<img src="<%= posts[i].pictures[0] %>" width="300px"/>
+						<h4><%= posts[i].title %></h4>
+						<p><%= posts[i].description %></p>
+						<p>View: <%= posts[i].view %></p>
+						<br/><a href="/display/<%= posts[i].id %>" class="btn btn-theme">More Info</a></p>
+					</div>
+				<% } %>
  		</div>
  	</div><! --/container -->
  </div><! --/service -->

@@ -12,18 +12,24 @@ var Sub_Category = require("./../models/sub_category");
 
 /* GET home page. */
 router.get('/', function(req, res) {
-	var subCat = Sub_Category.find().sort({'view': 1}).limit(5);
+	var subCat = Sub_Category.find().sort({'view': -1}).limit(5);
 
 	subCat.exec(function(err, subCategories){
 			
 		if (err)
 			console.log(err);
 		else {
-			res.render('index', { 
-				title: 'HOME',
-				home: 'active',
-				message: req.flash('message'),
-				subCategories: subCategories
+			Post.find().sort({"view":-1}).limit(6).exec(function(err, posts){
+				if (err) console.log(err);
+				else{
+					res.render('index', { 
+						title: 'HOME',
+						home: 'active',
+						message: req.flash('message'),
+						subCategories: subCategories,
+						posts: posts
+					});
+				}
 			});
 		}
 			
@@ -62,6 +68,7 @@ router.post('/posttest', function(req, res){
 	res.send(req.body);
 });
 
+/* POST post page */
 router.post('/post', function(req, res){
 	// trim out the whitespaces
 	var category = (req.body.category != undefined) ? req.body.category.trim() : '';
