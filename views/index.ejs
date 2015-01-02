@@ -57,50 +57,70 @@
  </div><!--/Portfoliowrap -->
 
  <!-- *****************************************************************************************************************
- SERVICE LOGOS
+ Test Section
  ***************************************************************************************************************** -->
- <div id="portfoliowrap">
-    <h3>POPULAR POSTS</h3>
-
-    <div class="portfolio-centered">
-        <div class="recentitems portfolio">
-
-        	<% for (var i = 0; i < posts.length; i++) { %>
-				<div class="portfolio-item graphic-design">
-					<div class="he-wrap tpl6">
-						<img src="<%= posts[i].pictures[0] %>" alt="">
-						<div class="he-view">
-							<div class="bg a0" data-animate="fadeIn">
-                            	<h3 class="a1" data-animate="fadeInDown"><%= posts[i].title %></h3>
-                            	<h5 class="a1" data-animate="fadeInDown"><%= posts[i].description %></h5>
-                            	<a data-rel="prettyPhoto" href="<%= posts[i].pictures[0] %>" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>
-                            	<a href="/display/<%=posts[i].id%>" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
-                    		</div><!-- he bg -->
-						</div><!-- he view -->		
-					</div><!-- he wrap -->
-				</div><!-- end col-12 -->  		
-        	<% } %>
-                
-        </div><!-- portfolio -->
-    </div><!-- portfolio container -->
- </div><!--/Portfoliowrap -->
-
- <div id="service">
- 	<div class="container">
- 			<h3 style="margin-bottom: 30px;"><center>POPULAR POSTS</center></h3>
-			<div class="row centered">
-				<% for (var i = 0; i < posts.length; i++) { %>
-					<div class="col-sm-4">
-						<img src="<%= posts[i].pictures[0] %>" width="300px"/>
-						<h4><%= posts[i].title %></h4>
-						<p><%= posts[i].description %></p>
-						<p>View: <%= posts[i].view %></p>
-						<br/><a href="/display/<%= posts[i].id %>" class="btn btn-theme">More Info</a></p>
-					</div>
-				<% } %>
+ <div class='recent-post'>
+ 	<h2>RECENT POSTS</h2>
+ 	<div id="container" class="js-masonry" data-masonry-options='{ "columnWidth" : 150, "itemSelector" : ".post", "isFitWidth" : true }'>
+ 		<% for (var i = 0; i < posts.length; i++) { %>
+ 			<div class="post">
+	 			<div class="post-wrapper">
+	 				<a href="/display/<%= posts[i].id %>">
+		 				<img src="<%= posts[i].pictures[0] %>" />
+		 			</a>
+		 			<div class="title"><%= posts[i].title %></div>
+		 			<div class="price">$<%= posts[i].price %></div>
+		 			<div class="location left-align"><%= posts[i].location.city %></div>
+		 			<div class="user left-align"><%= posts[i].user.fname %></div>
+		 		</div>
+	 		</div>
+ 		<% } %>
+ 		<div class="post">
+ 			<div class="post-wrapper">
+	 			<img src="/img/agency.jpg" />
+	 			<div class="title">This is agency</div>
+	 			<div class="price">$100</div>
+	 		</div>
  		</div>
- 	</div><! --/container -->
- </div><! --/service -->
+ 		<div class="post">
+ 			<div class="post-wrapper">
+	 			<img src="/img/browser.png" />
+	 			<div class="title">This is agency</div>
+	 			<div class="price">$100</div>
+	 		</div>
+ 		</div>
+ 		<div class="post">
+ 			<div class="post-wrapper">
+	 			<img src="/img/fat-man-cartoon.png" />
+	 			<div class="title">This is agency</div>
+	 			<div class="price">$100</div>
+	 		</div>
+ 		</div>
+ 		<div class="post">
+ 			<div class="post-wrapper">
+	 			<img src="/img/contact.jpg" />
+	 			<div class="title">This is agency</div>
+	 			<div class="price">$100</div>
+	 		</div>
+ 		</div>
+ 		<div class="post">
+ 			<div class="post-wrapper">
+	 			<img src="/img/cover.jpg" />
+	 			<div class="title">This is agency</div>
+	 			<div class="price">$100</div>
+	 		</div>
+ 		</div>
+ 		<div class="post">
+ 			<div class="post-wrapper">
+	 			<img src="/img/post01.jpg" />
+	 			<div class="title">This is agency</div>
+	 			<div class="price">$100</div>
+	 		</div>
+ 		</div>
+ 	</div>
+ </div>
+
+ <div class="clear"></div>
  
  
 <!-- *****************************************************************************************************************

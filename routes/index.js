@@ -12,14 +12,15 @@ var Sub_Category = require("./../models/sub_category");
 
 /* GET home page. */
 router.get('/', function(req, res) {
-	var subCat = Sub_Category.find().sort({'view': -1}).limit(5);
+	var subCat = Sub_Category.find().sort({'view': -1}).limit(6);
 
 	subCat.exec(function(err, subCategories){
 			
 		if (err)
 			console.log(err);
 		else {
-			Post.find().sort({"view":-1}).limit(6).exec(function(err, posts){
+			Post.find().sort({"post_date":-1}).populate("user location").limit(20)
+			.exec(function(err, posts){
 				if (err) console.log(err);
 				else{
 					res.render('index', { 
