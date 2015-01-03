@@ -263,4 +263,11 @@ router.post('/signup', before.guest, function(req, res){
 	}
 });
 
+/* GET about page. */
+router.get('/search/', function(req, res){
+	res.render('search', {
+		title: 'SEARCH'
+	});
+});
+
 module.exports = router;

@@ -14,7 +14,7 @@
     $('.large-img').attr('src', src);
   });
 
-  $('#imgs').magnificPopup({
+  $('.small-imgs').magnificPopup({
     delegate: 'a',
     type: 'image',
     gallery: {
