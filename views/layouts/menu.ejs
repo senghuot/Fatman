@@ -11,8 +11,26 @@
       <a class="navbar-brand" href="/">FATMAN.</a>
     </div>
     <div class="navbar-collapse collapse">
-      <form class="navbar-form navbar-left">
-        <input type="text" class="form-control" placeholder="Search..." />
+      <form class="navbar-form navbar-left form-inline">
+        
+        <div class="input-group">
+
+          <span class="input-group-btn">
+            <select class="form-control selectpicker">
+              <option>ALL LOCATIONS</option>
+              <option>BATTAMBONG</option>
+              <option>PHNOM PENH</option>
+            </select>
+          </span>
+
+          <span class="input-group-btn">
+            <input type="text" class="form-control" placeholder="Search..." />
+          </span>
+          
+        </div>
+
+
+        <!-- <input type="text" class="form-control" placeholder="Search..." />
         <select class="form-control ">
           <option value=0>City</option>
           <% for (var i = 0; i < locations.length; i++) { %>
@@ -20,7 +38,7 @@
           <% } %>
         </select>
         <input type="text" class="form-control" placeholder="location" id="geoLocation" />
-        <input type='button' class='form-control btn-primary' id='getLocation' value='Get Location' />
+        <input type='button' class='form-control btn-primary' id='getLocation' value='Get Location' /> -->
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li class="<% if (typeof about != 'undefined') { %> <%= about %> <% } %>"><a href="/development">DEVELOPMENT</a></li>
