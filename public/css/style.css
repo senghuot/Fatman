@@ -334,6 +334,7 @@ a:focus {
 
 /* Footer */
 #footerwrap {
+	margin-top: 60px;
 	padding-top: 60px;
 	padding-bottom: 60px;
 	background: #384452;
@@ -457,4 +458,35 @@ csmall2 {
 .share i {
 	padding-right: 15px;
 	font-size: 18px;
+}
+
+#left-panel {
+	width: 40%;
+	border: 1px solid gray;
+	float: left;
+}
+
+#right-panel {
+	width: 60%;
+	border: 1px solid gray;
+	float: right;
+}
+
+#imgs {
+	text-align: center;
+}
+
+.small-img {
+	width: 100px;
+	padding: 10px;
+	border: 1px solid #dddddd;
+	margin-top: 5px;
+}
+
+.large-img-container{
+	width: 540px;
+	height: 480px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	border: 1px solid #dddddd;
 }
