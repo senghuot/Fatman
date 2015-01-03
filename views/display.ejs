@@ -13,8 +13,52 @@
     </div> <!-- /conta -->
 </div>
 
-<%= info %>
+<div class="container">
+  <div id="imgs">
+    <div class="col-sm-6">
+      <div class="large-img-container">
+        <a href=" <%= post.pictures[0] %>">
+          <img class="large-img" src="<%= post.pictures[0] %>">
+        </a>
+      </div>
+      <div class="small-imgs">
+        <p class="help-block">
+          Click on image to zoom
+        </p>
 
-<img src=" <%= info.pictures[0] %> ">
+        <% for (var i = 0; i < post.pictures.length; i++) { %>
+          <a href="<%= post.pictures[i] %>" width="100px">
+              <img class="small-img" src="<%= post.pictures[i] %>" width="100px">
+          </a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6">
+    <h4><%= post.title %></h4>
+    <hr>
+    <p>
+      <span class="col-sm-2"> Condition: </span>
+      <label> <%= post.condition %> </label>
+    </p>
+    <p>
+      <span class="col-sm-2"> Location: </span>
+      <label> <%= post.location.city %> </label>
+    </p>
+    <p>
+      <span class="col-sm-2"> Seller: </span>
+      <label> <%= post.user.fname %> <%= post.user.lname %> </label>
+    </p>
+    <p>
+      <span class="col-sm-2"> Email: </span>
+      <label> <%= post.user.email %> </label>
+    </p>
+    <div>
+      Description:
+      <p> <%= post.description %> </p>
+    </div>
+  </div>
+</div>
 
 <% include layouts/footer.ejs %>

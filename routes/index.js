@@ -131,7 +131,7 @@ router.post('/post', function(req, res){
 			        var index = extension.lastIndexOf("/");
 			        extension = extension.substring(index + 1);
 
-					var relativePath = '/uploads/posts/' + post._id + "." + extension;
+					var relativePath = '/uploads/posts/' + post._id + '_' + i + '.' + extension;
 
 					fs.writeFileSync("./public" + relativePath, data);
 					post.pictures.push(relativePath);
@@ -170,17 +170,19 @@ router.post('/post', function(req, res){
 // GET display page.
 router.get('/display/:post_id', function(req, res) {
 	var post_id = req.params.post_id;
-	Post.findOne({_id: post_id}, function(err, post) {
+	Post.findOne({_id: post_id}).populate('location sub_category user').exec(function(err, post) {
+
 		if (err)
-			console.log(err)
+			console.log(err);
 		else {
-			res.render('display', {
-			title: 'Display',
-			info: post
-		});
+			res.render('display',
+				{
+					title: 'Display',
+					post: post
+				});
 		}
 	});
-});
+});	
 
 
 /* GET signup page. */

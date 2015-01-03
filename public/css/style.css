@@ -337,6 +337,7 @@ a:focus {
 
 /* Footer */
 #footerwrap {
+	margin-top: 60px;
 	padding-top: 60px;
 	padding-bottom: 60px;
 	background: #384452;
@@ -462,6 +463,7 @@ csmall2 {
 	font-size: 18px;
 }
 
+<<<<<<< HEAD
 /*
 Layout for recent post on index page
 */
@@ -507,4 +509,35 @@ Layout for recent post on index page
 
 .recent-post .post .post-wrapper .user:first-letter{
 	text-transform: capitalize;
+}
+
+#left-panel {
+	width: 40%;
+	border: 1px solid gray;
+	float: left;
+}
+
+#right-panel {
+	width: 60%;
+	border: 1px solid gray;
+	float: right;
+}
+
+#imgs {
+	text-align: center;
+}
+
+.small-img {
+	width: 100px;
+	padding: 10px;
+	border: 1px solid #dddddd;
+	margin-top: 5px;
+}
+
+.large-img-container{
+	width: 540px;
+	height: 480px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	border: 1px solid #dddddd;
 }
