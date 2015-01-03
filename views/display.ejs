@@ -8,7 +8,7 @@
 <div id="blue">
     <div class="container">
     <div class="row">
-      <h3>DISPLAY</h3>
+      <h3>Display</h3>
     </div><!-- /row -->
     </div> <!-- /conta -->
 </div>
@@ -17,9 +17,7 @@
   <div id="imgs">
     <div class="col-sm-6">
       <div class="large-img-container">
-        <a href=" <%= post.pictures[0] %>">
-          <img class="large-img" src="<%= post.pictures[0] %>">
-        </a>
+        <img class="large-img img-responsive" src="<%= post.pictures[0] %>">
       </div>
       <div class="small-imgs">
         <p class="help-block">
@@ -27,7 +25,7 @@
         </p>
 
         <% for (var i = 0; i < post.pictures.length; i++) { %>
-          <a href="<%= post.pictures[i] %>" width="100px">
+          <a href="<%= post.pictures[i] %>">
               <img class="small-img" src="<%= post.pictures[i] %>" width="100px">
           </a>
         <% } %>
@@ -38,6 +36,10 @@
   <div class="col-sm-6">
     <h4><%= post.title %></h4>
     <hr>
+    <p>
+      <span class="col-sm-2"> Price: </span>
+      <label> $<%= post.price %> </label>
+    </p>
     <p>
       <span class="col-sm-2"> Condition: </span>
       <label> <%= post.condition %> </label>

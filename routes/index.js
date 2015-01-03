@@ -8,6 +8,7 @@ var before = require('./../before');
 var Post = require('./../models/post');
 var User = require('./../models/user');
 var Location = require('./../models/location');
+var Category = require('./../models/category');
 var Sub_Category = require("./../models/sub_category");
 
 /* GET home page. */
@@ -262,6 +263,31 @@ router.post('/signup', before.guest, function(req, res){
 		req.flash('oldInput', req.body);
 		res.redirect('/signup');
 	}
+});
+
+/* GET about page. */
+router.get('/search/', function(req, res){
+	Post.find().populate('location sub_category user').exec(function(err, posts) {
+		if (err)
+			console.log(err);
+		else {
+			Category.find().populate('sub_categories').exec(function(err, categories){
+				for (var i = 0; i < categories.length; i++){
+					categories[i].sub_categories = categories[i].sub_categories.sort(function(a, b){
+						if (a.type < b.type) return 1;
+						if (a.type > b.type) return -1;
+						return 0;
+					});
+				}
+				
+				res.render('search', {
+					title: 'SEARCH',
+					posts: posts,
+					categories: categories
+				});
+			});
+		}
+	});
 });
 
 module.exports = router;

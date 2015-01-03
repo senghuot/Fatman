@@ -535,9 +535,14 @@ Layout for recent post on index page
 }
 
 .large-img-container{
-	width: 540px;
-	height: 480px;
 	padding-top: 30px;
 	padding-bottom: 30px;
 	border: 1px solid #dddddd;
+}
+
+.filter {
+}
+
+.items {
+	
 }
