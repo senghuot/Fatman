@@ -30,11 +30,26 @@ router.get('/posts', function(req, res){
 
 	// });
 
-	Sub_Category.find().populate({path: "posts", options: { sort: {"type":1} } }).exec(function(err, subs){
-		console.log(subs);
-		res.json(subs);
-	});
+	// Sub_Category.find().populate({path: "posts", options: { sort: {"type":1} } }).exec(function(err, subs){
+	// 	console.log(subs);
+	// 	res.json(subs);
+	// });
 
+	// Post.aggregate([{$group: {_id: "$condition"} }]).exec(function(err, posts){
+	// 	console.log(posts);
+	// 	res.json(posts);
+	// });
+
+	Location.findOne({city: "phnom penh"}).populate({path: "posts"}).exec(function(err, loc){
+		var locs = loc.toObject();
+		locs.posts = locs.posts.sort(function(a, b){
+			if (a.condition > b.condition) return 1;
+			if (a.condition < b.condition) return -1;
+			return 0;
+		});
+		console.log(locs);
+		res.json(locs);
+	});
 });
 
 module.exports = router;

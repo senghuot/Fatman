@@ -210,6 +210,8 @@ a:focus {
 	padding-top: 100px;
 	padding-bottom: 0px;
 	text-align: center;
+	background: url(../img/cover.jpg) no-repeat center center fixed;
+    background-size: cover;
 }
 
 #headerwrap h3, h5 {
@@ -228,8 +230,9 @@ a:focus {
 
 /* Services Wrap */
 #service {
-	margin-top: 100px;
+	margin-top: 40px;
 	margin-bottom: 80px;
+	background-color: #f8f8f8;
 }
 
 #service i {
@@ -458,6 +461,54 @@ csmall2 {
 .share i {
 	padding-right: 15px;
 	font-size: 18px;
+}
+
+<<<<<<< HEAD
+/*
+Layout for recent post on index page
+*/
+.left-align{
+	text-align: left;
+}
+
+#container{
+	margin: 0 auto;
+}
+.recent-post{
+	text-align: center;
+	background-color: #f8f8f8;
+	padding-top: 100px;
+	padding-bottom: 100px;
+}
+
+.recent-post > h2{
+	margin-bottom: 50px;
+}
+
+.recent-post .post{
+	width: 150px;
+	padding: 5px;
+}
+
+.recent-post .post .post-wrapper{
+	border: 1px solid #00b3fe;
+	padding: 5px;
+}
+
+.recent-post .post .post-wrapper .title{
+	
+}
+
+.recent-post .post .post-wrapper .price{
+	font-weight: bolder;
+}
+
+.recent-post .post .post-wrapper .location{
+	margin-top: 10px;
+}
+
+.recent-post .post .post-wrapper .user:first-letter{
+	text-transform: capitalize;
 }
 
 #left-panel {
