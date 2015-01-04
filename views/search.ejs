@@ -60,7 +60,7 @@
  <div class="row">
     <div class="items">
 
-       <div class='recent-post'>
+       <div class='recent-post search'>
         <div id="container" class="js-masonry" data-masonry-options='{ "columnWidth" : 150, "itemSelector" : ".post", "isFitWidth" : true }'>
           <% for (var i = 0; i < posts.length; i++) { %>
             <div class="post">
@@ -70,9 +70,8 @@
                 </a>
                 <div class="title"><%= posts[i].title %></div>
                 <div class="price">$<%= posts[i].price %></div>
-                <div class="location left-align"><%= posts[i].location.city %></div>
-                <div class="user left-align"><%= posts[i].user.fname %></div>
-                <%= new Date(posts[i].post_date) %>
+                <div class="location"><%= posts[i].location.city %></div>
+                <div class="user"><%= posts[i].user.fname %></div>
               </div>
             </div>
           <% } %>
