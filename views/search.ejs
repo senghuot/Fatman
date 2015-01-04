@@ -19,7 +19,7 @@
           <label class="sr-only"> Category: </label>
           <div class="col-sm-4">
             <select class="form-control" name="category" id="selectCategory">
-              <option>
+              <option value="">
                 Category
               </option>
               <% for (var i = 0; i < categories.length; i++) { %>
@@ -72,6 +72,7 @@
                 <div class="price">$<%= posts[i].price %></div>
                 <div class="location left-align"><%= posts[i].location.city %></div>
                 <div class="user left-align"><%= posts[i].user.fname %></div>
+                <%= new Date(posts[i].post_date) %>
               </div>
             </div>
           <% } %>
@@ -83,4 +84,11 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="container">
+      <div class="col-sm-2 col-sm-offset-5">
+        <button id="more" class="btn-lg btn-primary">More</button>
+      </div>
+    </div>
+  </div>
 <% include layouts/footer.ejs %>

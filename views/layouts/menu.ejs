@@ -16,7 +16,7 @@
         <div class="input-group">
 
           <span class="input-group-btn">
-            <select class="form-control selectpicker show-tick" name="location">
+            <select class="form-control selectpicker show-tick" name="location" id="location">
                 <option value="">
                   All
                 </option> 
@@ -35,7 +35,7 @@
           </span>
 
           <span class="input-group-btn">
-            <input type="text" class="form-control" placeholder="Search..." name="keyword" <% if (typeof queries != 'undefined') { %> value="<%= queries.keyword %>"  <% } %>/>
+            <input id="keyword" type="text" class="form-control" placeholder="Search..." name="keyword" <% if (typeof queries != 'undefined') { %> value="<%= queries.keyword %>"  <% } %>/>
           </span>
           
         </div>

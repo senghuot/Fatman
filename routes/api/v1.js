@@ -52,4 +52,43 @@ router.get('/posts', function(req, res){
 	});
 });
 
+router.get('/search', function(req, res){
+	var filter = {};
+
+	var keyword = req.query.keyword;
+	var regex = new RegExp(keyword, 'i');
+	filter.title = regex;
+
+	var location = req.query.location;
+	if (location !== "")
+		filter.location = location;
+	
+	var category = req.query.category;
+	if (category !== '')
+		filter.sub_category = category;
+
+
+	var sortFilter = {};
+	var sort = req.query.sort;
+	if (sort === 'low')
+		sortFilter.price = 1;
+	else if (sort === 'high')
+		sortFilter.price = -1;
+	else if (sort === 'newest')
+		sortFilter.post_date = -1;
+	else if (sort === 'oldest')
+		sortFilter.post_date = 1;
+
+	var skip = req.query.skip;
+
+	Post.find(filter).sort(sortFilter).populate("location sub_category user")
+	.skip(skip * 2).limit(2).exec(function(err, posts){
+		if (err) console.log(err);
+		else{
+			console.log(posts)
+			res.json(posts);
+		}
+	});	
+});
+
 module.exports = router;
