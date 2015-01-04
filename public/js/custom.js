@@ -22,4 +22,23 @@
     }
   });
 
+  // search button
+  $('select#selectCategory').change(function(){
+    var category = $('select#selectCategory');
+    var hiddenCategory = $('input#category');
+
+    hiddenCategory.val(category.val());
+    var myForm = $('form#search');
+    myForm.submit();
+  });
+
+  $('select#selectSort').change(function() {
+    var sort = $('select#selectSort');
+    var hiddenSort = $('input#sort');
+
+    hiddenSort.val(sort.val());
+    var myForm = $('form#search');
+    myForm.submit();
+  });
+
 })(jQuery);

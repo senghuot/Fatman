@@ -11,35 +11,39 @@
       <a class="navbar-brand" href="/">FATMAN.</a>
     </div>
     <div class="navbar-collapse collapse">
-      <form class="navbar-form navbar-left form-inline">
+      <form class="navbar-form navbar-left form-inline" action="/search" method="get" id="search">
         
         <div class="input-group">
 
           <span class="input-group-btn">
-            <select class="form-control selectpicker show-tick">
-              <option>ALL LOCATIONS</option>
-              <option>BATTAMBONG</option>
-              <option>PHNOM PENH</option>
+            <select class="form-control selectpicker show-tick" name="location">
+                <option value="">
+                  All
+                </option> 
+              <% for (var i = 0; i < locations.length; i++) { 
+                var selected = "default";
+              %>
+                <% if (typeof queries !== 'undefined' && queries.location == locations[i]._id) {
+                  selected = "selected='selected'";
+                } %>
+                
+                <option value="<%= locations[i]._id %>" <%= selected %> >
+                  <%= locations[i].city %>
+                </option>
+              <% } %>
             </select>
           </span>
 
           <span class="input-group-btn">
-            <input type="text" class="form-control" placeholder="Search..." />
+            <input type="text" class="form-control" placeholder="Search..." name="keyword" <% if (typeof queries != 'undefined') { %> value="<%= queries.keyword %>"  <% } %>/>
           </span>
           
         </div>
 
-
-        <!-- <input type="text" class="form-control" placeholder="Search..." />
-        <select class="form-control ">
-          <option value=0>City</option>
-          <% for (var i = 0; i < locations.length; i++) { %>
-            <option value="<%= locations[i]._id %>"><%= locations[i].city %></option>
-          <% } %>
-        </select>
-        <input type="text" class="form-control" placeholder="location" id="geoLocation" />
-        <input type='button' class='form-control btn-primary' id='getLocation' value='Get Location' /> -->
+        <input type="hidden" name="category" <% if (typeof queries != 'undefined') { %> value="<%= queries.category %>"  <% } %> id="category">
+        <input type="hidden" name="sort" <% if (typeof queries != 'undefined') { %> value="<%= queries.sort %>" <% } %> id="sort">`
       </form>
+
       <ul class="nav navbar-nav navbar-right">
         <li class="<% if (typeof about != 'undefined') { %> <%= about %> <% } %>"><a href="/development">DEVELOPMENT</a></li>
         <li class="<% if (typeof post != 'undefined') { %> <%= post %> <% } %>">  <a href="/post">POST</a>

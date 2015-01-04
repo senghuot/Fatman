@@ -11,38 +11,56 @@
 </div>
 
 <div class="container">
-  <div class="row">
-    <form class="form-horizontal pull-right col-sm-3" method="POST" action="/search">
-      <div class="form-group">
-        <label class="control-label col-sm-4"> Sort: </label>
-        <div class="col-sm-8">
-          <select class="form-control" name="sort">
-              <option value="new">Relavance</option>
-              <option value="mint">New and Popular</option>
-              <option value="used">Price: Low to High</option>
-              <option value="used">Price: High to Low</option>
-          </select>
+  <div class="row filter">
+    <label>Refine by:</label>
+    
+      <form class="form-inline">
+        <div class="form-group">
+          <label class="sr-only"> Category: </label>
+          <div class="col-sm-4">
+            <select class="form-control" name="category" id="selectCategory">
+              <option>
+                Category
+              </option>
+              <% for (var i = 0; i < categories.length; i++) { %>
+                <optgroup label="<%= categories[i].type %>">
+                  <% categories[i].sub_categories.forEach(function(subCat){ 
+                    var selected = "";
+                    if (typeof queries != 'undefined' && queries.category == subCat.id){
+                      selected = "selected='selected'";
+                    }
+                  %>
+                    <option value="<%= subCat.id %>" <%= selected %>><%= subCat.type %></option>  
+                  <% }); %>
+                </optgroup>
+              <% } %>
+            </select>
+          </div>
         </div>
-      </div>
-    </form>
+
+        <div class="form-group">
+          <label class="sr-only"> Sort </label>
+          <div class="col-sm-4">
+            <select class="form-control" name="sort" id="selectSort">
+                <option value="">Sort</option>
+                <option value="low" <% if (typeof queries != 'undefined' && queries.sort === 'low') { %> selected="selected" <% } %> >Price: Low to High</option>
+                <option value="high" <% if (typeof queries != 'undefined' && queries.sort === 'high') { %> selected="selected" <% } %> >Price: High to Low</option>
+                
+                <option value="newest" <% if (typeof queries != 'undefined' && queries.sort === 'newest') { %> selected="selected" <% } %> >Date: newest</option>
+                <option value="oldest" <% if (typeof queries != 'undefined' && queries.sort === 'oldest') { %> selected="selected" <% } %> >Date: oldest</option>
+            </select>
+          </div>
+        </div>
+
+      </form>
+    
   </div>
+</div>
 
-  <div class="row">
-    <div class="filter col-sm-2">
-      <label> Categories: </label>
-      <div>
-        <% for (var i = 0; i < categories.length; i++) { %>
-          <a href="#" class="list-group-item disabled"><%= categories[i].type %></a>  
-          <% categories[i].sub_categories.forEach(function(subCat){ %>
-            <a href="/search?cid" class="list-group-item">- <%= subCat.type %></a>  
-          <% }); %>
-        <% } %>
-      </div>
-    </div>
+ <div class="row">
+    <div class="items">
 
-    <div class="items col-sm-10">
-
-       <div class="">
+       <div class='recent-post'>
         <div id="container" class="js-masonry" data-masonry-options='{ "columnWidth" : 150, "itemSelector" : ".post", "isFitWidth" : true }'>
           <% for (var i = 0; i < posts.length; i++) { %>
             <div class="post">
@@ -58,97 +76,11 @@
             </div>
           <% } %>
 
-    <div class="post">
-      <div class="post-wrapper">
-        <img src="/img/agency.jpg" />
-        <div class="title">This is agency</div>
-        <div class="price">$100</div>
-      </div>
-    </div>
-    <div class="post">
-      <div class="post-wrapper">
-        <img src="/img/browser.png" />
-        <div class="title">This is agency</div>
-        <div class="price">$100</div>
-      </div>
-    </div>
-    <div class="post">
-      <div class="post-wrapper">
-        <img src="/img/fat-man-cartoon.png" />
-        <div class="title">This is agency</div>
-        <div class="price">$100</div>
-      </div>
-    </div>
-    <div class="post">
-      <div class="post-wrapper">
-        <img src="/img/contact.jpg" />
-        <div class="title">This is agency</div>
-        <div class="price">$100</div>
-      </div>
-    </div>
-    <div class="post">
-      <div class="post-wrapper">
-        <img src="/img/cover.jpg" />
-        <div class="title">This is agency</div>
-        <div class="price">$100</div>
-      </div>
-    </div>
-    <div class="post">
-      <div class="post-wrapper">
-        <img src="/img/post01.jpg" />
-        <div class="title">This is agency</div>
-        <div class="price">$100</div>
-      </div>
-    </div>
-    <div class="post">
-      <div class="post-wrapper">
-        <img src="/img/agency.jpg" />
-        <div class="title">This is agency</div>
-        <div class="price">$100</div>
-      </div>
-    </div>
-    <div class="post">
-      <div class="post-wrapper">
-        <img src="/img/browser.png" />
-        <div class="title">This is agency</div>
-        <div class="price">$100</div>
-      </div>
-    </div>
-    <div class="post">
-      <div class="post-wrapper">
-        <img src="/img/fat-man-cartoon.png" />
-        <div class="title">This is agency</div>
-        <div class="price">$100</div>
-      </div>
-    </div>
-    <div class="post">
-      <div class="post-wrapper">
-        <img src="/img/contact.jpg" />
-        <div class="title">This is agency</div>
-        <div class="price">$100</div>
-      </div>
-    </div>
-    <div class="post">
-      <div class="post-wrapper">
-        <img src="/img/cover.jpg" />
-        <div class="title">This is agency</div>
-        <div class="price">$100</div>
-      </div>
-    </div>
-    <div class="post">
-      <div class="post-wrapper">
-        <img src="/img/post01.jpg" />
-        <div class="title">This is agency</div>
-        <div class="price">$100</div>
-      </div>
-    </div>
-
 
         </div>
        </div>
 
     </div>
   </div>
-</div>
 
 <% include layouts/footer.ejs %>

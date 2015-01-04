@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-
 var fs = require('fs');
 var before = require('./../before');
 
@@ -266,8 +265,34 @@ router.post('/signup', before.guest, function(req, res){
 });
 
 /* GET about page. */
-router.get('/search/', function(req, res){
-	Post.find().populate('location sub_category user').exec(function(err, posts) {
+router.get('/search', function(req, res){
+	var filter = {};
+
+	var keyword = req.query.keyword;
+	var regex = new RegExp(keyword, 'i');
+	filter.title = regex;
+
+	var location = req.query.location;
+	if (location !== "")
+		filter.location = location;
+	
+	var category = req.query.category;
+	if (category !== '')
+		filter.sub_category = category;
+
+
+	var sortFilter = {};
+	var sort = req.query.sort;
+	if (sort === 'low')
+		sortFilter.price = 1;
+	else if (sort === 'high')
+		sortFilter.price = -1;
+	else if (sort === 'newest')
+		sortFilter.post_date = -1;
+	else if (sort === 'oldest')
+		sortFilter.post_date = 1;
+
+	Post.find(filter).sort(sortFilter).populate('location sub_category user').exec(function(err, posts) {
 		if (err)
 			console.log(err);
 		else {
@@ -283,7 +308,8 @@ router.get('/search/', function(req, res){
 				res.render('search', {
 					title: 'SEARCH',
 					posts: posts,
-					categories: categories
+					categories: categories,
+					queries: req.query
 				});
 			});
 		}
