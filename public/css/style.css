@@ -491,7 +491,7 @@ Layout for recent post on index page
 }
 
 .recent-post .post .post-wrapper{
-	border: 1px solid #00b3fe;
+	border: 1px solid #384452;
 	padding: 5px;
 }
 
@@ -501,12 +501,17 @@ Layout for recent post on index page
 
 .recent-post .post .post-wrapper .price{
 	font-weight: bolder;
+	font-size: 24px;
 }
 
 .recent-post .post .post-wrapper .location{
 	margin-top: 10px;
+	text-align: left;
 }
 
+.recent-post .post .post-wrapper .user{
+	text-align: left;
+}
 .recent-post .post .post-wrapper .user:first-letter{
 	text-transform: capitalize;
 }
@@ -544,6 +549,8 @@ Layout for recent post on index page
 	padding-bottom: 30px;
 }
 
-.items {
-	
+.search {
+	background-color: white;
+	padding-top: 0px;
+	/*color: grey;*/
 }
