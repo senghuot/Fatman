@@ -21,6 +21,7 @@
     "bcrypt": "~0.8.0",
     "passport-local": "~1.0.0",
     "passport": "~0.2.1",
-    "csurf": "~1.6.3"
+    "csurf": "~1.6.3",
+    "connect-multiparty": "~1.2.5"
   }
 }

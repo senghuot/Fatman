@@ -23,6 +23,7 @@ var apiV1 = require('./routes/api/v1');
 var locations = require('./routes/locations');
 var hash = require('./routes/hash');
 var authenticate = require('./routes/authenticate');
+var dashboard = require('./routes/dashboard');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -77,6 +78,7 @@ app.use('/api/v1', apiV1);
 app.use('/locations', locations);
 app.use('/hash', hash);
 app.use('/authenticate', authenticate);
+app.use("/dashboard", dashboard);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
