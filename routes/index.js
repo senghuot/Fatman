@@ -140,12 +140,19 @@ router.post('/post', function(req, res){
 				post.save( function(err) {
 					if (err) console.log(err);
 					else{
+						// add reference post to location
 						Location.findOne({_id: location}, function(err, locat){
 							locat.posts.push(post);
 							locat.save();
 						});
 
+						// add reference post to user
+						User.findOne({_id: req.user.id}, function(err, user){
+							user.posts.push(post);
+							user.save();
+						});
 
+						// add reference post to sub_category
 						Sub_Category.findOne({_id: subCategory}, function(err, subCat){
 							if (err) console.log(err);
 							else{
