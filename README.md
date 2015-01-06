@@ -8,6 +8,11 @@ $ git clone https://github.com/senghuot/Fatman.git
 $ npm install
 $ nodemon ./bin/www
 ```
+## Hosting
+For hosting, we are using AWS EC2, specifically, ubuntu 64 bit instance micro tier to help us test out the service on the web.
+```js
+http://54.173.35.59:3000/
+```
 
 ## API
 ```js
