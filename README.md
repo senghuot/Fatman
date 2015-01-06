@@ -1,5 +1,5 @@
 ```js
-<font color='red'>As winter quarter begins, you will find less updates from @senghuot. We are planning to lunch the service very soon before my school catch up and steal away all my free time.</font>
+As winter quarter begins, you will find less updates from @senghuot. We are planning to lunch the service very soon before my school catch up and steal away all my free time.
 ```
 
 # Introduction
