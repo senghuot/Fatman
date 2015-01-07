@@ -463,7 +463,6 @@ csmall2 {
 	font-size: 18px;
 }
 
-<<<<<<< HEAD
 /*
 Layout for recent post on index page
 */
@@ -487,33 +486,40 @@ Layout for recent post on index page
 
 .recent-post .post{
 	width: 300px;
+	/*padding: 5px;*/
+	border: 1px solid grey;
+	margin-bottom: 10px;
+	-webkit-box-shadow: 0 10px 6px -6px #777;
+    -moz-box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 0 10px 6px -6px #777;
+
+}
+
+.recent-post .post img{
 	padding: 5px;
 }
 
-.recent-post .post .post-wrapper{
-	border: 1px solid #384452;
-	padding: 5px;
+.recent-post .post .title{
+	padding: 5px;	
 }
 
-.recent-post .post .post-wrapper .title{
-	
-}
-
-.recent-post .post .post-wrapper .price{
+.recent-post .post .price{
 	font-weight: bolder;
 	font-size: 24px;
+	padding: 5px;
+	color: green;
 }
 
-.recent-post .post .post-wrapper .location{
+.recent-post .post .location{
 	margin-top: 10px;
 	text-align: left;
+	padding: 5px;
 }
 
-.recent-post .post .post-wrapper .user{
+.recent-post .post .user{
 	text-align: left;
-}
-.recent-post .post .post-wrapper .user:first-letter{
-	text-transform: capitalize;
+	background-color: #f8f8f8;
+	padding: 5px;
 }
 
 #left-panel {
