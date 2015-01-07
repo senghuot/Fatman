@@ -30,6 +30,7 @@
 				<th>Post Date</th>
 				<th>Price</th>
 				<th>Condition</th>
+				<th>City</th>
 				<th>Edit</th>
 				<th>Delete</th>
 			</tr>
@@ -42,6 +43,7 @@
 					<td><%= monthName[posts[i].post_date.getMonth()] %> <%= posts[i].post_date.getDate() %>, <%= posts[i].post_date.getFullYear() %></td>
 					<td>$<%= posts[i].price %></td>
 					<td><%= posts[i].condition %></td>
+					<td><%= posts[i].location.city %></td>
 					<td><a href="/dashboard/posts/<%= posts[i].id %>">Edit</a></td>
 					<td><a href="#">Delete</a></td>
 				</tr>

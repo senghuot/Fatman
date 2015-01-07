@@ -23,6 +23,7 @@
   });
 
   var skip = 1;
+  
   // search button
   $('select#selectCategory').change(function(){
     var category = $('select#selectCategory');
@@ -42,6 +43,7 @@
     myForm.submit();
   });
 
+  // click more button to more content
   $("button#more").click(function(){
     var myForm = $('form#search');
     var location = $("select#location");
@@ -81,8 +83,11 @@
         result += "</div>";
         result += "</div>";
 
-        $("div#container").append(result)
-        .masonry('reloadItems').masonry('layout');
+
+        divResult.append(result);
+        divResult.masonry().imagesLoaded(function(){
+          divResult.masonry("reloadItems").masonry("layout");
+        });
       }
     });
 
