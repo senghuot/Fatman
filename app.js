@@ -14,7 +14,6 @@ var csrf = require('csurf');
 var app = express();
 var multipart = require('connect-multiparty');
 
-
 // include the routes
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -101,7 +100,7 @@ if (app.get('env') === 'development') {
             error: err
         });
     });
-
+    
     mongoose.connect('mongodb://localhost/fatman');
 }
 
@@ -110,13 +109,17 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
+if (app.get('env') === 'production'){
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: {}
+        });
     });
-});
+
+    mongoose.connect('mongodb://localhost/fatman');
+}
 
 
 module.exports = app;

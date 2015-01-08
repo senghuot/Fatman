@@ -1,1 +1,5 @@
 nodemon ./bin/www
+
+export NODE_ENV=production
+nodemon ./bin/www
+these two lines above are for running production environment: production doesn't show the error trace.
