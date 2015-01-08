@@ -24,6 +24,7 @@ var locations = require('./routes/locations');
 var hash = require('./routes/hash');
 var authenticate = require('./routes/authenticate');
 var dashboard = require('./routes/dashboard');
+var image = require('./routes/image');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -79,6 +80,7 @@ app.use('/locations', locations);
 app.use('/hash', hash);
 app.use('/authenticate', authenticate);
 app.use("/dashboard", dashboard);
+app.use("/image", image);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
