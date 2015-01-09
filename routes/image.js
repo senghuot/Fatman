@@ -10,32 +10,49 @@ router.get("/", function(req, res){
 });
 
 router.post("/", function(req, res){
-	var file = req.files.file;
-	console.log(file);
+	var files = req.files.file;
+	// console.log(files);
 
-	easyimage.info(file.path).then(
+	// convert to jpg extenstion to have smallest file size possible
+	// easyimage.info(file.path).then(
 		
-		function(file){
-			console.log(file);
-			res.send(file);
-		}, function(err){
-			console.log(err);
-		}
-
-	);
-
-	// easyimage.resize({
-	// 	src: file.path,
-	// 	dst: "beach.png",
-	// 	width: 300	
-	// }).then(
-	// 	function(file){
-	// 		res.send(file);
+	// 	function(mFile){
+	// 		easyimage.resize({
+	// 			src: file.path,
+	// 			dst: "beach.jpg",
+	// 			width: 300,
+	// 			quality: 0.1	
+	// 		}).then(	
+	// 			function(rFile){
+	// 				res.send(rFile);
+	// 			}, function(err){
+	// 				res.send(err);
+	// 			}
+	// 		);
 	// 	}, function(err){
+	// 		console.log(err);
 	// 		res.send(err);
 	// 	}
+
 	// );
 
+	var photos = [];
+	if (Object.prototype.toString.call(files) === '[object Array]')
+		photos = files;
+	else
+		photos.push(files);
+
+	for (var i = 0; i < photos.length; i++){
+		easyimage.info(photos[i].path).then(
+			function(photo){
+				console.log(photo);
+			}, function(err){
+				console.log(err);
+			}
+		);
+	}
+
+	res.send("ok");
 });
 
 module.exports = router;

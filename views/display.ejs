@@ -17,7 +17,9 @@
   <div id="imgs">
     <div class="col-sm-6">
       <div class="large-img-container">
-        <img class="large-img img-responsive" src="<%= post.pictures[0] %>">
+        
+          <img class="large-img img-responsive" src="<%= post.pictures[0] %>">
+        
       </div>
       <div class="small-imgs">
         <p class="help-block">
@@ -25,8 +27,8 @@
         </p>
 
         <% for (var i = 0; i < post.pictures.length; i++) { %>
-          <a href="<%= post.pictures[i] %>">
-              <img class="small-img" src="<%= post.pictures[i] %>" width="100px">
+          <img class="small-img" src="<%= post.pictures[i] %>" width="100px">
+          <a href="<%= post.pictures[i] %>" rel="shadowbox[display]" id="images">
           </a>
         <% } %>
       </div>

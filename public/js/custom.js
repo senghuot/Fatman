@@ -12,14 +12,57 @@
   $('img.small-img').hover(function(){
     var src = $(this).attr('src');
     $('.large-img').attr('src', src);
+    $("a#mainpicture").attr('href', src);
+    
   });
 
-  $('.small-imgs').magnificPopup({
-    delegate: 'a',
-    type: 'image',
-    gallery: {
-      enabled: true
+  // $('.small-imgs').magnificPopup({
+  //   delegate: 'a',
+  //   type: 'image',
+  //   gallery: {
+  //     enabled: true
+  //   }
+  // });
+
+  $("div.large-img-container").hover(function(){
+    $(this).css({"cursor" : "pointer"});
+  });
+
+  $("div.large-img-container").click(function(){
+    
+    var currentImage = $("img.large-img").attr("src");
+    var currentImageName = currentImage.substr(currentImage.lastIndexOf("/")+1);
+
+    var content = "";
+    for (key in Shadowbox.cache){
+      var image = Shadowbox.cache[key].content;
+      var imageName = image.substr(image.lastIndexOf("/")+1);
+      if (currentImageName == imageName){
+        content = image;
+        break;
+      }
     }
+    
+    // //default option
+    var options = {};
+
+    // // call open to show shadowbox
+    Shadowbox.open({
+      content: content,
+      player: "img",
+      gallery: "display",
+      options: options
+    });
+  });
+
+  Shadowbox.init({
+    handleOversize: "none",
+    modal: false,
+    animate: true,
+    continuous: true,
+    counterType: "skip",
+    // counterLimit: 5
+    // displayNav: false
   });
 
   //convert string to uppercase first letter. ex: "hello world" => "Hello World"
