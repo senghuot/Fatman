@@ -48,7 +48,8 @@ router.get('/profile/edit', before.auth, function(req, res){
 		profile: "active",
 		csrfToken: req.csrfToken(),
 		errors: req.flash("errors"),
-		oldInput: req.flash("oldInput")
+		oldInput: req.flash("oldInput"),
+		message: req.flash('message')
 	});
 });
 
@@ -80,7 +81,14 @@ router.post('/profile/edit', before.auth, function(req, res){
 				user.email = req.body.email;
 
 				user.save(function(err){
-					if (err) console.log(err);
+					if (err){
+						console.log(err);
+						if (err.code == 11000){
+							req.flash("message", user.email + " alreay existed!");
+							req.flash("oldInput", req.body);
+							res.redirect("/dashboard/profile/edit");
+						}	
+					} 
 					else{
 						res.redirect("/dashboard/profile");
 					}

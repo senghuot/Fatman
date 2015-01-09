@@ -58,9 +58,11 @@
   Shadowbox.init({
     handleOversize: "none",
     modal: false,
-    animate: true,
+    animate: false,
     continuous: true,
     counterType: "skip",
+    viewportPadding: 45
+    // slideshowDelay: 2
     // counterLimit: 5
     // displayNav: false
   });
@@ -222,5 +224,17 @@
   //     }
   // });
 //******************************************************************
+  // initialize masonry
+  var $container = $("div#container");
 
+  // layout Masonry again after all images have loaded
+  $container.imagesLoaded(function(){
+    $container.masonry({
+      columnWidth: 300,
+      itemSelector: ".post",
+      isFitWidth: true,
+      gutter: 10,
+      isAnimated: true
+    });
+  });
 })(jQuery);

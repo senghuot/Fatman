@@ -61,7 +61,7 @@
  ***************************************************************************************************************** -->
  <div class='recent-post'>
  	<h2>RECENT POSTS</h2>
- 	<div id="container" class="js-masonry" data-masonry-options='{ "columnWidth" : 300, "itemSelector" : ".post", "isFitWidth" : true, "gutter": 10 }'>
+ 	<div id="container" class="js-masonry">
  		<% for (var i = 0; i < posts.length; i++) { %>
  			<div class="post">
 	 			<div class="post-wrapper">
@@ -70,8 +70,8 @@
 		 			</a>
 		 			<div class="title"><%= posts[i].title %></div>
 		 			<div class="price">$<%= posts[i].price %></div>
-		 			<div class="location left-align"><%= posts[i].location.city %></div>
-		 			<div class="user left-align"><%= posts[i].user.fname %></div>
+		 			<div class="location left-align"><%= posts[i].location.city.capitalize() %></div>
+		 			<div class="user left-align"><%= posts[i].user.fname.capitalize() %></div>
 		 		</div>
 	 		</div>
  		<% } %>

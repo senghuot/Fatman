@@ -475,7 +475,7 @@ Layout for recent post on index page
 }
 .recent-post{
 	text-align: center;
-	background-color: #f8f8f8;
+	/*background-color: #f8f8f8;*/
 	padding-top: 100px;
 	padding-bottom: 100px;
 }

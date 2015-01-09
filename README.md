@@ -8,6 +8,7 @@ This project is motivated by Khmer24, an online cambodian classified ads. Unfort
 # Install
 Getting started with the project is as easy as following two command lines; then open http://localhost:3000/) in your favorite web browser. (Assuming you have npm and mongo install)
 ```sh
+$ start mongodb database server
 $ git clone https://github.com/senghuot/Fatman.git
 $ npm install
 $ nodemon ./bin/www
