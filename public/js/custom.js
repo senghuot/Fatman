@@ -11,60 +11,25 @@
 
   $('img.small-img').hover(function(){
     var src = $(this).attr('srcLarge');
-    var srcSuperLarge = $(this).attr("srcSuperLarge");
-    $('.large-img').attr('src', src);
-    $('.large-img').attr('srcSuperLarge', srcSuperLarge);
-  });
+    var position = $(this).attr("position");
 
-  // $('.small-imgs').magnificPopup({
-  //   delegate: 'a',
-  //   type: 'image',
-  //   gallery: {
-  //     enabled: true
-  //   }
-  // });
+    $('.large-img').attr('src', src);
+    $('.large-img').attr('position', position);
+  });
 
   $("div.large-img-container").hover(function(){
     $(this).css({"cursor" : "pointer"});
   });
 
   $("div.large-img-container").click(function(){
-    
-    var currentImage = $("img.large-img").attr("srcSuperLarge");
-    var currentImageName = currentImage.substr(currentImage.lastIndexOf("/")+1);
-
-    var content = "";
-    for (key in Shadowbox.cache){
-      var image = Shadowbox.cache[key].content;
-      var imageName = image.substr(image.lastIndexOf("/")+1);
-      if (currentImageName == imageName){
-        content = image;
-        break;
-      }
-    }
-    
-    // //default option
-    var options = {};
-
-    // // call open to show shadowbox
-    Shadowbox.open({
-      content: content,
-      player: "img",
-      gallery: "display",
-      options: options
-    });
+    var $position = $('.large-img').attr('position');
+    $(".fancybox").eq($position).trigger('click');
   });
 
-  Shadowbox.init({
-    handleOversize: "none",
-    modal: false,
-    animate: false,
-    continuous: true,
-    counterType: "skip",
-    viewportPadding: 45
-    // slideshowDelay: 2
-    // counterLimit: 5
-    // displayNav: false
+  $(".fancybox").fancybox({
+    nextEffect: "fade",
+    prevEffect: "fade",
+    padding: 0
   });
 
   //convert string to uppercase first letter. ex: "hello world" => "Hello World"

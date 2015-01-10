@@ -18,7 +18,7 @@
     <div class="col-sm-6">
       <div class="large-img-container">
         
-          <img class="large-img img-responsive" src="<%= post.pictures_l[0] %>" srcSuperLarge="<%= post.pictures[0] %>">
+          <img class="large-img img-responsive" src="<%= post.pictures_l[0] %>" position="0">
         
       </div>
       <div class="small-imgs">
@@ -27,9 +27,8 @@
         </p>
 
         <% for (var i = 0; i < post.pictures.length; i++) { %>
-          <img class="small-img" src="<%= post.pictures_s[i] %>" width="100px" srcLarge="<%= post.pictures_l[i] %>" srcSuperLarge="<%= post.pictures[i] %>">
-          <a href="<%= post.pictures[i] %>" rel="shadowbox[display]">
-          </a>
+          <img class="small-img" src="<%= post.pictures_s[i] %>" width="100px" alert="" position="<%= i %>" srcLarge="<%= post.pictures_l[i] %>">
+          <a class="fancybox" rel="group" href="<%= post.pictures[i] %>"></a>
         <% } %>
       </div>
     </div>
