@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
+var easyimage = require('easyimage');
 var before = require('./../before');
 
 // import models
@@ -64,13 +65,11 @@ router.get('/post', before.auth, function(req, res){
 	
 });
 
-router.post('/posttest', function(req, res){
-	console.log(req.body);
-	res.send(req.body);
-});
-
 /* POST post page */
 router.post('/post', function(req, res){
+	/**
+	this trim here needed to change; it doesn't look right
+	**/
 	// trim out the whitespaces
 	var category = (req.body.category != undefined) ? req.body.category.trim() : '';
 	var subCategory = (req.body.subCategory != undefined) ? req.body.subCategory.trim() : '';
@@ -135,11 +134,46 @@ router.post('/post', function(req, res){
 
 					fs.writeFileSync("./public" + relativePath, data);
 					post.pictures.push(relativePath);
+
+					// small image
+					var smallImagePath = "/uploads/posts/small/" + post._id + "_s_" + i + ".jpg";
+					easyimage.resize({
+						src: photos[i].path,
+						dst: "public" + smallImagePath,
+						width: 300
+					}).then(
+						function(file){
+							console.log("pictures_s is pushed.");
+							post.pictures_s.push(smallImagePath);
+							post.save();
+						},
+						function(err){
+							console.log(err);
+						}
+					);
+
+					// large image
+					var largeImagePath = "/uploads/posts/large/" + post._id + "_l_" + i + ".jpg";
+					easyimage.resize({
+						src: photos[i].path,
+						dst: "public" + largeImagePath,
+						width: 800
+					}).then(
+						function(file){
+							console.log("pictures_l is pushed.");
+							post.pictures_l.push(largeImagePath);
+							post.save();
+						},
+						function(err){
+							console.log(err);
+						}
+					);
 				}
 
 				post.save( function(err) {
 					if (err) console.log(err);
 					else{
+						console.log("post is saved.")
 						// add reference post to location
 						Location.findOne({_id: location}, function(err, locat){
 							locat.posts.push(post);
@@ -156,8 +190,8 @@ router.post('/post', function(req, res){
 						Sub_Category.findOne({_id: subCategory}, function(err, subCat){
 							if (err) console.log(err);
 							else{
-								console.log(subCat);
-								console.log(post);
+								// console.log(subCat);
+								// console.log(post);
 								subCat.posts.push(post);
 								subCat.save(function(err){
 									if (err) console.log(err);

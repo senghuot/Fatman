@@ -12,6 +12,8 @@ var postSchema = Schema({
   price:            Number,
   condition:        String,
   pictures:         [String],
+  pictures_s:       [String],
+  pictures_l:       [String],
   view:             {
                       type: Number,
                       default: 0
