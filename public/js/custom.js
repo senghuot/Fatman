@@ -10,10 +10,10 @@
 	});
 
   $('img.small-img').hover(function(){
-    var src = $(this).attr('src');
+    var src = $(this).attr('srcLarge');
+    var srcSuperLarge = $(this).attr("srcSuperLarge");
     $('.large-img').attr('src', src);
-    $("a#mainpicture").attr('href', src);
-    
+    $('.large-img').attr('srcSuperLarge', srcSuperLarge);
   });
 
   // $('.small-imgs').magnificPopup({
@@ -30,7 +30,7 @@
 
   $("div.large-img-container").click(function(){
     
-    var currentImage = $("img.large-img").attr("src");
+    var currentImage = $("img.large-img").attr("srcSuperLarge");
     var currentImageName = currentImage.substr(currentImage.lastIndexOf("/")+1);
 
     var content = "";

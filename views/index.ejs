@@ -31,29 +31,16 @@
 <!-- *****************************************************************************************************************
  PORTFOLIO SECTION
  ***************************************************************************************************************** -->
- <div id="portfoliowrap">
-    <h3>FEATURE CATEGORIES</h3>
-
-    <div class="portfolio-centered">
-        <div class="recentitems portfolio">
-
-        	<% for (var i = 0; i < subCategories.length; i++) { %>
-				<div class="portfolio-item graphic-design">
-					<div class="he-wrap tpl6">
-						<img src="<%= subCategories[i].picture %>" alt="">
-						<div class="he-view">
-							<div class="bg a0" data-animate="fadeIn">
-                            	<h3 class="a1" data-animate="fadeInDown"><%= subCategories[i].type %></h3>
-                            	<a data-rel="prettyPhoto" href="<%= subCategories[i].picture %>" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>
-                            	<a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
-                    		</div><!-- he bg -->
-						</div><!-- he view -->		
-					</div><!-- he wrap -->
-				</div><!-- end col-12 -->  		
-        	<% } %>
-                
-        </div><!-- portfolio -->
-    </div><!-- portfolio container -->
+ <div class="feature-category">
+    <h2>FEATURE CATEGORIES</h2>
+    
+    <% for (var i = 0; i < subCategories.length; i++) { %>
+	    <div class="item">
+	    	<img src="<%= subCategories[i].picture %>" class="image-responsive" width="100%"/>
+	    </div>
+    <% } %>
+	
+    <div class="clearfix"></div>
  </div><!--/Portfoliowrap -->
 
  <!-- *****************************************************************************************************************
@@ -66,7 +53,7 @@
  			<div class="post">
 	 			<div class="post-wrapper">
 	 				<a href="/display/<%= posts[i].id %>">
-		 				<img src="<%= posts[i].pictures[0] %>" />
+		 				<img src="<%= posts[i].pictures_s[0] %>" />
 		 			</a>
 		 			<div class="title"><%= posts[i].title %></div>
 		 			<div class="price">$<%= posts[i].price %></div>

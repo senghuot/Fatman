@@ -55,7 +55,7 @@ router.get('/post', before.auth, function(req, res){
 
 	res.render('post', {
 		title: 'POST',
-		post: 'active',
+		postPage: 'active',
 		csrfToken: req.csrfToken(),
 		errors: req.flash('errors'),
 		oldInput: req.flash('oldInput'),
@@ -137,6 +137,7 @@ router.post('/post', function(req, res){
 
 					// small image
 					var smallImagePath = "/uploads/posts/small/" + post._id + "_s_" + i + ".jpg";
+					post.pictures_s.push(smallImagePath);
 					easyimage.resize({
 						src: photos[i].path,
 						dst: "public" + smallImagePath,
@@ -144,8 +145,6 @@ router.post('/post', function(req, res){
 					}).then(
 						function(file){
 							console.log("pictures_s is pushed.");
-							post.pictures_s.push(smallImagePath);
-							post.save();
 						},
 						function(err){
 							console.log(err);
@@ -154,6 +153,7 @@ router.post('/post', function(req, res){
 
 					// large image
 					var largeImagePath = "/uploads/posts/large/" + post._id + "_l_" + i + ".jpg";
+					post.pictures_l.push(largeImagePath);
 					easyimage.resize({
 						src: photos[i].path,
 						dst: "public" + largeImagePath,
@@ -161,8 +161,6 @@ router.post('/post', function(req, res){
 					}).then(
 						function(file){
 							console.log("pictures_l is pushed.");
-							post.pictures_l.push(largeImagePath);
-							post.save();
 						},
 						function(err){
 							console.log(err);

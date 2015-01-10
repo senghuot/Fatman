@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
+var easyimage = require('easyimage');
 
 var Category = require("./../models/category");
 var Sub_Category = require("./../models/sub_category");
@@ -162,25 +163,26 @@ router.post("/subcategories/post", function(req, res){
           if (err) console.log(err);
         });
 
-        var pic = req.files.picture;
+        var file = req.files.picture;
+        console.log(file);
 
-        // get picture byte code
-        var data = fs.readFileSync(pic.path);
-        
-        // get original extension
-        var extension = pic.type;
-        var index = extension.lastIndexOf("/");
-        extension = extension.substring(index + 1);
+        var dst = "/img/subcategory/" + subCat._id + ".jpg";
 
-        var relativePath = "/img/subcategory/" + subCat._id + "." + extension;
-        fs.writeFileSync("./public" + relativePath, data);
-
-        subCat.picture = relativePath;
-
-        subCat.save(function(err){
-          req.flash('message', 'sub category added successfully');
-          res.redirect("/categories/subcategories/post"); 
-        });
+        easyimage.convert({
+          src: file.path,
+          dst: "public/" + dst
+        }).then(
+          function(file){
+            subCat.picture = dst;
+            subCat.save(function(err){
+                req.flash('message', 'sub category added successfully');
+                res.redirect("/categories/subcategories/post"); 
+            });
+          },
+          function(err){
+            res.send(err);
+          }
+        );
       }
     });
     

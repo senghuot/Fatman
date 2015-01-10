@@ -560,3 +560,21 @@ Layout for recent post on index page
 	padding-top: 0px;
 	/*color: grey;*/
 }
+
+.feature-category{
+	text-align: center;
+	padding-top: 100px;
+}
+
+.feature-category h2{
+	margin-bottom: 50px;
+}
+
+.feature-category .item{
+	width: 20%;
+	float: left;
+}
+
+.clearfix{
+	clear:both;
+}
