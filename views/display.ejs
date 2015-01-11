@@ -35,7 +35,7 @@
   </div>
 
   <div class="col-sm-6">
-    <h4><%= post.title %></h4>
+    <h4><%= post.title.capitalize() %></h4>
     <hr>
     <p>
       <span class="col-sm-2"> Price: </span>
@@ -43,15 +43,15 @@
     </p>
     <p>
       <span class="col-sm-2"> Condition: </span>
-      <label> <%= post.condition %> </label>
+      <label> <%= post.condition.capitalize() %> </label>
     </p>
     <p>
       <span class="col-sm-2"> Location: </span>
-      <label> <%= post.location.city %> </label>
+      <label> <%= post.location.city.capitalize() %> </label>
     </p>
     <p>
       <span class="col-sm-2"> Seller: </span>
-      <label> <%= post.user.fname %> <%= post.user.lname %> </label>
+      <label> <%= post.user.fname.capitalize() %> <%= post.user.lname.capitalize() %> </label>
     </p>
     <p>
       <span class="col-sm-2"> Email: </span>

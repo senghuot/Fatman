@@ -89,6 +89,12 @@ a:focus {
 	min-height: 70px;
 	padding-top: 10px;
 	margin-bottom: 0px;
+	transition: top 0.2s ease-in-out;
+	top: 0;
+}
+
+.nav-up{
+	top: -80px;
 }
 
 .navbar-brand {
