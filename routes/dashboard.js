@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 // model
-var Post = require("./../models/post")
-var User = require("./../models/user")
+var Post = require("./../models/post");
+var User = require("./../models/user");
 
 var before = require('./../before');
 
@@ -20,16 +20,22 @@ router.get('/posts', before.auth ,function(req, res){
 });
 
 /* GET edit posts page */
-router.get('/posts/:id', before.auth, function(req, res){
+router.get('/posts/edit/:id', before.auth, function(req, res){
 	var postId = req.params.id;
 
 	Post.findOne({_id: postId}).populate("user").exec(function(err, post){
 		if (err) return console.log(err);
 
-		if (post.user.id == req.user.id)
-			return res.json(post);	
-		
-		return res.send("not your post");
+		if (post.user.id == req.user.id) {
+			res.render("dashboard/editPost", {
+				title: "POST",
+				post: post,
+				csrfToken: req.csrfToken(),
+				oldInput: req.flash("oldInput")
+			});
+		} else {
+			return res.send("not your post");
+		}
 	});
 });
 
@@ -37,7 +43,11 @@ router.get('/posts/:id', before.auth, function(req, res){
 router.get('/profile', before.auth, function(req, res){
 	res.render("dashboard/profile",{
 		title: "PROFILE",
-		profile: "active"
+		profile: "active",
+		csrfToken: req.csrfToken(),
+		errors: req.flash("errors"),
+		oldInput: req.flash("oldInput"),
+		message: req.flash('message')
 	});
 });
 
