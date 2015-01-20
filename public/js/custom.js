@@ -117,7 +117,8 @@
       alert("Request failed: " + textStatus);
     });
   });
-
+  
+  //************************************************************************************
   // hide show navbar
   // $("div.navbar-fixed-top").autoHidingNavbar();
 
@@ -158,6 +159,12 @@
 
     lastScrollTop = st;
   }
+
+  //************************************************************************************
+
+  $('span').click(function(){
+    alert($(this).attr("id"));
+  });
   
   // // load more content when scroll to bottom page
   // function lastAddedLiveFunc() {

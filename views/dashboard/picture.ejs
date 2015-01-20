@@ -1,0 +1,29 @@
+<% include ../layouts/header.ejs %>
+
+<body>
+
+<% include ../layouts/menu.ejs %>
+
+<!-- *****************************************************************************************************************
+ BLUE WRAP
+ ***************************************************************************************************************** -->
+<div id="blue">
+    <div class="container">
+		<div class="row">
+			<h3>delete image.</h3>
+		</div><!-- /row -->
+    </div> <!-- /container -->
+</div><!-- /blue -->
+
+<div class="container">
+	<% for (var i = 0; i < post.pictures_s.length; i++) { %>
+		<div style="position:relative;border:1px solid red; float:left;">
+			<img src="<%= post.pictures_s[i] %>">
+			<span id="<%= post.pictures_s[i] %>" style="position:absolute;right:0;top:0;background:yellow">
+				x
+			</span>	
+		</div>
+	<% } %>
+</div>
+
+<% include ../layouts/footer.ejs %>

@@ -20,7 +20,7 @@ router.get('/', function(req, res) {
 		if (err)
 			console.log(err);
 		else {
-			Post.find().sort({"post_date":-1}).populate("user location").limit(20)
+			Post.find({status: 'active'}).sort({"post_date":-1}).populate("user location").limit(20)
 			.exec(function(err, posts){
 				if (err) console.log(err);
 				else{

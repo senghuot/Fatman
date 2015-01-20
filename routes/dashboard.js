@@ -1,15 +1,36 @@
 var express = require('express');
 var router = express.Router();
+var mongoose = require('mongoose');
 
 // model
-var Post = require("./../models/post")
-var User = require("./../models/user")
+var Post = require("./../models/post");
+var User = require("./../models/user");
+var Location = require('./../models/location');
+var Sub_Category = require('./../models/sub_category');
 
 var before = require('./../before');
 
+/* Testing Delete picture */
+router.get('/deletepicture/:postId', function(req, res){
+	var postId = req.params.postId;
+	// console.log(postId);
+	Post.findOne({_id: postId}, function(err, post){
+		if (err)
+			return console.log(err);
+		else
+			if (post != null){
+				console.log(post);
+				res.render('dashboard/picture',{
+					post: post,
+					title: "delete image"
+				});
+			}
+	});
+});
+
 /* GET posts page */
 router.get('/posts', before.auth ,function(req, res){
-	Post.find({user: req.user._id}).populate("sub_category location user").sort({"post_date":-1})
+	Post.find({user: req.user._id, status: 'active'}).populate("sub_category location user").sort({"post_date":-1})
 	.exec(function(err, posts){
 		res.render("dashboard/posts",{
 			title: "POST",
@@ -30,6 +51,36 @@ router.get('/posts/:id', before.auth, function(req, res){
 			return res.json(post);	
 		
 		return res.send("not your post");
+	});
+});
+
+/* GET delete posts page */
+router.get('/posts/:id/delete', before.auth,function(req, res){
+	var postId = req.params.id;
+
+	Post.findOne({_id: postId}).populate("user").exec(function(err, post){
+		if (err){
+			console.log(err);	
+			// handle error. eg: redirection to other pages...
+			res.send("something went wrong!!!")
+		} 
+
+		// post not found
+		if (post == null) return res.send("Post not found!");
+
+		// post is not belonged to this user
+		if (req.user.id != post.user._id) return res.send("You are naughty girl!");
+
+		post.status = 'delete';
+
+		post.save(function(err){
+			if (err){
+				console.log(err);
+				//handle erre
+			}else{
+				res.redirect('/dashboard/posts');
+			}
+		});
 	});
 });
 
