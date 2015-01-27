@@ -91,4 +91,8 @@ router.get('/search', function(req, res){
 	});	
 });
 
+router.delete('/images/', function(req, res){
+	console.log('delete image....');
+});
+
 module.exports = router;

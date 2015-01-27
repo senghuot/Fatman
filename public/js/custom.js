@@ -162,8 +162,9 @@
 
   //************************************************************************************
 
-  $('span').click(function(){
-    alert($(this).attr("id"));
+  $('span#x').click(function(){
+    var $image = $(this).attr("img-loc");
+    alert($image);
   });
   
   // // load more content when scroll to bottom page

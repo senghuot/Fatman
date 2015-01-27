@@ -17,9 +17,9 @@
 
 <div class="container">
 	<% for (var i = 0; i < post.pictures_s.length; i++) { %>
-		<div style="position:relative;border:1px solid red; float:left;">
+		<div style="position:relative;float:left;width:150px;">
 			<img src="<%= post.pictures_s[i] %>">
-			<span id="<%= post.pictures_s[i] %>" style="position:absolute;right:0;top:0;background:yellow">
+			<span id="x" style="position:absolute;right:0;top:0;background:yellow" img-loc="<%= post.pictures_s[i] %>">
 				x
 			</span>	
 		</div>
