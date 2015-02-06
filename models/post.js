@@ -18,6 +18,10 @@ var postSchema = Schema({
                       type: Number,
                       default: 0
                     },
+  status:           {
+                      type: String,
+                      default: "active"
+                    },
   
   // collection references
   sub_category: {

@@ -1,13 +1,13 @@
 (function($) {
 
 	// prettyPhoto
-	jQuery(document).ready(function(){
+	// jQuery(document).ready(function(){
 
-		jQuery('a[data-gal]').each(function() {
-			jQuery(this).attr('rel', jQuery(this).data('gal'));
-		});  	
-		jQuery("a[data-rel^='prettyPhoto']").prettyPhoto({animationSpeed:'slow',theme:'light_square',slideshow:false,overlay_gallery: false,social_tools:false,deeplinking:false});
-	});
+	// 	jQuery('a[data-gal]').each(function() {
+	// 		jQuery(this).attr('rel', jQuery(this).data('gal'));
+	// 	});  	
+	// 	jQuery("a[data-rel^='prettyPhoto']").prettyPhoto({animationSpeed:'slow',theme:'light_square',slideshow:false,overlay_gallery: false,social_tools:false,deeplinking:false});
+	// });
 
   $('img.small-img').hover(function(){
     var src = $(this).attr('srcLarge');
@@ -63,7 +63,7 @@
     myForm.submit();
   });
 
-  // click more button to more content
+  // click more button to get more content
   $("button#more").click(function(){
     // allowInfiniteScroll = true;
     // $(this).hide();
@@ -117,7 +117,8 @@
       alert("Request failed: " + textStatus);
     });
   });
-
+  
+  //************************************************************************************
   // hide show navbar
   // $("div.navbar-fixed-top").autoHidingNavbar();
 
@@ -158,6 +159,47 @@
 
     lastScrollTop = st;
   }
+
+  //************************************************************************************
+
+  //************************************************************************************
+  // delete image
+  $('span#x').click(function(){
+    var deletedImage = $(this).parent();
+
+    var $image = $(this).attr("img-loc");
+
+    var data = {};
+    data.image = $image.substring($image.lastIndexOf("_") + 1, $image.lastIndexOf("."));
+    
+    // set csrf token otherwise it will return 403
+    var csrf = $("input#csrf").val();
+    $.ajaxPrefilter(function(options, _, xhr){
+      xhr.setRequestHeader('X-CSRF-Token', csrf);
+    });
+
+    var url = "/api/v1/images/" + $("input#postId").val();
+
+    var request = $.ajax({
+      url: url,
+      type: "put",
+      dataType: "JSON",
+      data: JSON.stringify(data),
+      contentType: "application/json; charset=UTF-8"
+    });
+
+    request.done(function(data, status){
+      console.log(data);
+      console.log(status);
+      deletedImage.remove();
+    });
+
+    request.fail(function(data){
+      alert(data.status);
+    });
+  });
+
+  //************************************************************************************
   
   // // load more content when scroll to bottom page
   // function lastAddedLiveFunc() {

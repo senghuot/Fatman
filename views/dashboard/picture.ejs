@@ -1,0 +1,31 @@
+<% include ../layouts/header.ejs %>
+
+<body>
+
+<% include ../layouts/menu.ejs %>
+
+<!-- *****************************************************************************************************************
+ BLUE WRAP
+ ***************************************************************************************************************** -->
+<div id="blue">
+    <div class="container">
+		<div class="row">
+			<h3>delete image.</h3>
+		</div><!-- /row -->
+    </div> <!-- /container -->
+</div><!-- /blue -->
+
+<div class="container">
+	<% for (var i = 0; i < post.pictures_s.length; i++) { %>
+		<div style="position:relative;float:left;width:150px;">
+			<img src="<%= post.pictures_s[i] %>">
+			<span id="x" style="position:absolute;right:0;top:0;background:yellow" img-loc="<%= post.pictures_s[i] %>">
+				x
+			</span>	
+		</div>
+	<% } %>
+	<input type='hidden' value='<%= csrfToken %>' name="_csrf" id="csrf" />
+	<input type='hidden' value='<%= post.id %>' name="postId" id="postId" />
+</div>
+
+<% include ../layouts/footer.ejs %>

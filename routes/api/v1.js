@@ -91,4 +91,54 @@ router.get('/search', function(req, res){
 	});	
 });
 
+// testing delete some images from post
+router.put('/images/:postId', function(req, res){
+	console.log('delete image....');
+	
+	var postId = req.params.postId;
+	var image = req.body.image;
+
+	console.log("Image: " + image);
+	console.log("postId: " + postId);
+
+	Post.findOne({_id: postId}, function(err, post){
+		if (err) console.log(err);
+		else{
+			for (var i = 0; i < post.pictures.length; i++){
+				var picture = post.pictures[i];
+				var imageNumber = picture.substring(picture.lastIndexOf("_") + 1, picture.lastIndexOf("."));
+
+				if (image == imageNumber){
+					console.log("image is matched: " + image);
+					post.pictures.splice(i, 1);
+				}
+			}
+
+			for (var i = 0; i < post.pictures_l.length; i++){
+				var picture = post.pictures_l[i];
+				var imageNumber = picture.substring(picture.lastIndexOf("_") + 1, picture.lastIndexOf("."));
+
+				if (image == imageNumber){
+					console.log("image is matched: " + image);
+					post.pictures_l.splice(i, 1);
+				}
+			}
+
+			for (var i = 0; i < post.pictures_s.length; i++){
+				var picture = post.pictures_s[i];
+				var imageNumber = picture.substring(picture.lastIndexOf("_") + 1, picture.lastIndexOf("."));
+
+				if (image == imageNumber){
+					console.log("image is matched: " + image);
+					post.pictures_s.splice(i, 1);
+				}
+			}
+
+			post.save();
+		}
+	});
+
+	res.json('ok');
+});
+
 module.exports = router;

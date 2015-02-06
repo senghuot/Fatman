@@ -7,8 +7,10 @@ var Post = require('./../models/post');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  Location.find(function(err, location){
-    res.send(location);
+  Location.find().populate('posts', null, {status: 'active'})
+  .exec(function(err, locations){
+    console.log(locations);
+    res.json(locations);
   });
 });
 
