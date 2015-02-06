@@ -24,6 +24,8 @@
 			</span>	
 		</div>
 	<% } %>
+	<input type='hidden' value='<%= csrfToken %>' name="_csrf" id="csrf" />
+	<input type='hidden' value='<%= post.id %>' name="postId" id="postId" />
 </div>
 
 <% include ../layouts/footer.ejs %>

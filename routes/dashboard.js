@@ -22,7 +22,8 @@ router.get('/deletepicture/:postId', function(req, res){
 				console.log(post);
 				res.render('dashboard/picture',{
 					post: post,
-					title: "delete image"
+					title: "delete image",
+					csrfToken: req.csrfToken()
 				});
 			}
 	});
