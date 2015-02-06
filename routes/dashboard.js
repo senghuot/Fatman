@@ -3,10 +3,12 @@ var router = express.Router();
 var mongoose = require('mongoose');
 
 // model
+
 var Post = require("./../models/post");
 var User = require("./../models/user");
 var Location = require('./../models/location');
 var Sub_Category = require('./../models/sub_category');
+var Category = require('./../models/category');
 
 var before = require('./../before');
 
@@ -31,27 +33,48 @@ router.get('/deletepicture/:postId', function(req, res){
 
 /* GET posts page */
 router.get('/posts', before.auth ,function(req, res){
+
 	Post.find({user: req.user._id, status: 'active'}).populate("sub_category location user").sort({"post_date":-1})
 	.exec(function(err, posts){
-		res.render("dashboard/posts",{
-			title: "POST",
+		res.render('dashboard/posts',{
+			title: 'POST',
 			posts: posts,
-			post: "active"
+			post: 'active'
 		});
 	});
 });
 
 /* GET edit posts page */
-router.get('/posts/:id', before.auth, function(req, res){
+router.get('/posts/edit/:id', before.auth, function(req, res){
 	var postId = req.params.id;
 
-	Post.findOne({_id: postId}).populate("user").exec(function(err, post){
-		if (err) return console.log(err);
+	Post.findOne({_id: postId}).populate('user sub_category').exec(function(errPost, post){
 
-		if (post.user.id == req.user.id)
-			return res.json(post);	
-		
-		return res.send("not your post");
+		// setting up categories and sub categories
+		Category.find().populate('sub_categories').exec(function(errCategories, categories) {
+
+			// getting all the location
+			Location.find(function(errLocation, locations) {
+				// checking all the errors first
+				if (errPost) return console.log(errPost);
+				if (errCategories) return console.log(errCategories);
+
+				if (post.user.id == req.user.id) {
+					res.render('dashboard/editPost', {
+						errors: req.flash('errors'),
+						message: req.flash('message'),
+						title: 'POST',
+						post: post,
+						categories: categories,
+						locations: locations,
+						csrfToken: req.csrfToken(),
+						oldInput: req.flash('oldInput')
+					});
+				} else {
+					return res.send(post);
+				}
+			});
+		});
 	});
 });
 
@@ -83,24 +106,73 @@ router.get('/posts/:id/delete', before.auth,function(req, res){
 			}
 		});
 	});
+
+router.post('/posts/edit', before.auth, function(req, res) {
+	// trim out the whitespaces
+	var postID = (req.body.postID != undefined) ? req.body.postID.trim() : '';
+	var subCategory = (req.body.subCategory != undefined) ? req.body.subCategory.trim() : '';
+	var title = (req.body.title != undefined) ? req.body.title.trim() : '';
+	var condition = (req.body.title != undefined) ? req.body.condition.trim() : '';
+	var details = (req.body.title != undefined) ? req.body.details.trim() : '';
+	var price = (req.body.title != undefined) ? req.body.price.trim() : '';
+	var location = (req.body.location != undefined) ? req.body.location.trim() : '';
+
+	// assertions then create an error map object
+	req.assert('category', 'Category is required').notEmpty();
+	req.assert('subCategory', 'Sub Category is required').notEmpty();
+	req.assert('title', 'Title is required').notEmpty();
+	req.assert('condition', 'Condition is required').notEmpty();
+	req.assert('details', 'Details is required').notEmpty();
+	req.assert('price', 'Price is required').notEmpty();
+	req.assert('location', 'Location is required').notEmpty();
+	var mapErrors = req.validationErrors(true);
+
+	// mapErrors exists then we know there are some errors to handle
+	if (mapErrors) {
+		console.log(mapErrors);
+		req.flash('errors', mapErrors);
+		req.flash('oldInput', req.body);
+		res.redirect('/dashboard/posts/edit/' + postID);
+	} else {
+		Post.findOne({_id: postID}, function(errPost, post) {
+			if (errPost) console.log(err);
+			else {
+				post.sub_category = subCategory;
+				post.title = title;
+				post.condition = condition;
+				post.description = details;
+				post.price = price;
+				post.location = location;
+
+				post.save(function (errSave) {
+					if (errSave) console.log(errSave);
+					res.redirect('/dashboard/posts');
+				});
+			}
+		});
+	}
 });
 
 /* GET profile page */
 router.get('/profile', before.auth, function(req, res){
-	res.render("dashboard/profile",{
-		title: "PROFILE",
-		profile: "active"
+	res.render('dashboard/profile',{
+		title: 'PROFILE',
+		profile: 'active',
+		csrfToken: req.csrfToken(),
+		errors: req.flash('errors'),
+		oldInput: req.flash('oldInput'),
+		message: req.flash('message')
 	});
 });
 
 /* GET edit profile page */
 router.get('/profile/edit', before.auth, function(req, res){
-	res.render("dashboard/editProfile",{
-		title: "EDIT PROFILE",
-		profile: "active",
+	res.render('dashboard/editProfile',{
+		title: 'EDIT PROFILE',
+		profile: 'active',
 		csrfToken: req.csrfToken(),
-		errors: req.flash("errors"),
-		oldInput: req.flash("oldInput"),
+		errors: req.flash('errors'),
+		oldInput: req.flash('oldInput'),
 		message: req.flash('message')
 	});
 });
@@ -136,22 +208,22 @@ router.post('/profile/edit', before.auth, function(req, res){
 					if (err){
 						console.log(err);
 						if (err.code == 11000){
-							req.flash("message", user.email + " alreay existed!");
-							req.flash("oldInput", req.body);
-							res.redirect("/dashboard/profile/edit");
-						}	
-					} 
+							req.flash('message', user.email + ' alreay existed!');
+							req.flash('oldInput', req.body);
+							res.redirect('/dashboard/profile/edit');
+						}
+					}
 					else{
-						res.redirect("/dashboard/profile");
+						res.redirect('/dashboard/profile');
 					}
 				});
 			}
 		});
 	}else{
 		console.log(mapErrors);
-		req.flash("errors", mapErrors);
-		req.flash("oldInput", req.body);
-		res.redirect("/dashboard/profile/edit");
+		req.flash('errors', mapErrors);
+		req.flash('oldInput', req.body);
+		res.redirect('/dashboard/profile/edit');
 	}
 });
 

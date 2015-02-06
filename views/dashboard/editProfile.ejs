@@ -22,15 +22,14 @@
 
 	<div class="col-sm-10">
 		
-		<% if ( errors != '' ) {%>
-			
+		<% if ( errors != '' ) { %>
 			<ul class="alert alert-danger" role="alert">
 			<% for (var key in errors[0]) { %>
 				<li> <%= errors[0][key].msg %> </li>
 			<% } %>
 			</ul>
-			
 		<% } %>
+
 		<% if (message != '') { %>
 			<div class="alert alert-danger" role="alert">
 				<%= message %>
