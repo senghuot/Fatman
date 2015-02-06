@@ -3,7 +3,6 @@ var router = express.Router();
 var mongoose = require('mongoose');
 
 // model
-
 var Post = require("./../models/post");
 var User = require("./../models/user");
 var Location = require('./../models/location');
@@ -79,33 +78,33 @@ router.get('/posts/edit/:id', before.auth, function(req, res){
 });
 
 /* GET delete posts page */
-router.get('/posts/:id/delete', before.auth,function(req, res){
-	var postId = req.params.id;
+// router.get('/posts/:id/delete', before.auth,function(req, res){
+// 	var postId = req.params.id;
 
-	Post.findOne({_id: postId}).populate("user").exec(function(err, post){
-		if (err){
-			console.log(err);	
-			// handle error. eg: redirection to other pages...
-			res.send("something went wrong!!!")
-		} 
+// 	Post.findOne({_id: postId}).populate("user").exec(function(err, post){
+// 		if (err){
+// 			console.log(err);	
+// 			// handle error. eg: redirection to other pages...
+// 			res.send("something went wrong!!!")
+// 		} 
 
-		// post not found
-		if (post == null) return res.send("Post not found!");
+// 		// post not found
+// 		if (post == null) return res.send("Post not found!");
 
-		// post is not belonged to this user
-		if (req.user.id != post.user._id) return res.send("You are naughty girl!");
+// 		// post is not belonged to this user
+// 		if (req.user.id != post.user._id) return res.send("You are naughty girl!");
 
-		post.status = 'delete';
+// 		post.status = 'delete';
 
-		post.save(function(err){
-			if (err){
-				console.log(err);
-				//handle erre
-			}else{
-				res.redirect('/dashboard/posts');
-			}
-		});
-	});
+// 		post.save(function(err){
+// 			if (err){
+// 				console.log(err);
+// 				//handle erre
+// 			}else{
+// 				res.redirect('/dashboard/posts');
+// 			}
+// 		});
+// 	});
 
 router.post('/posts/edit', before.auth, function(req, res) {
 	// trim out the whitespaces
