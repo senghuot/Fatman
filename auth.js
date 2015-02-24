@@ -31,8 +31,6 @@ passport.use(new passportLocal.Strategy({
     }
 ));
 
-vvar dfaf ;;
-
 passport.serializeUser(function(user, done){
     done(null, user.id);
 });
