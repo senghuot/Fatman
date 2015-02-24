@@ -52,8 +52,10 @@ router.get('/posts', function(req, res){
 	});
 });
 
+// GET search page
 router.get('/search', function(req, res){
 	var filter = {};
+	filter.status = "active";
 
 	var keyword = req.query.keyword;
 	var regex = new RegExp(keyword, 'i');
