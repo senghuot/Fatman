@@ -303,9 +303,10 @@ router.post('/signup', before.guest, function(req, res){
 	}
 });
 
-/* GET about page. */
+/* GET search page. */
 router.get('/search', function(req, res){
 	var filter = {};
+	filter.status = "active";
 
 	var keyword = req.query.keyword;
 	var regex = new RegExp(keyword, 'i');

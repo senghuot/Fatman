@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>WEBRTC</title>
+	</head>
+
+	<body>
+		<div style="margin: 0 auto; width: 400px; background:#ccc; border: 10px solid #ddd; ">
+
+			<video id="video" width="400" height="300" autoplay></video>
+
+		</div>
+
+		<script>
+			(function(){
+				var video = document.getElementById("video");
+				var videoURL = 	window.URL || window.webkitURL;
+
+				navigator.getMedia = 	navigator.getUserMedia ||
+										navigator.webkitGetUserMedia ||
+										navigator.mozGetUserMedia ||
+										navigator.msGetUserMedia;
+
+				// capture video
+				navigator.getMedia(
+					{
+						video: true,
+						audio: true
+					}, function(stream){
+						video.src = videoURL.createObjectURL(stream);
+					}, function(err){
+						// console.log(err.code);
+					}
+				);
+			})();
+		</script>
+	</body>
+</html>

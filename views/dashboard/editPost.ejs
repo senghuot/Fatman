@@ -15,7 +15,7 @@
     </div> <!-- /container -->
 </div><!-- /blue -->
 
-<div class="container">
+<div class="container" ng-app="editPostApp" ng-controller="FormController as form">
     <div class="col-sm-2">
         <% include sidemenu.ejs %>
     </div>
@@ -36,21 +36,14 @@
         </div>
         <% } %>
 
-        <form class="form-horizontal" action="/dashboard/posts/edit" method="post">
-            <input  type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <form class="form-horizontal" action="/dashboard/posts/edit" method="post" ng-init="form.oldCategory='<%= post.sub_category.category %>'; form.oldSubCategory='<%= post.sub_category._id %>'" ng-submit="form.submit($event)" enctype="multipart/form-data"> 
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" id="csrf">
             <input  type="hidden" name="postID" value="<%= post._id %>">
 
             <div class="form-group">
                 <label class="control-label col-sm-2"> Category: </label>
                 <div class='col-sm-10'>
-                    <select name="category" class="form-control" required>
-                        <% for (var i = 0; i < categories.length; i++) { %>
-                            <% if (JSON.stringify(post.sub_category.category) === JSON.stringify(categories[i]._id)) { %>
-                                <option value="<%= categories[i]._id %>" selected="selected"> <%= categories[i].type %> </option>
-                            <%} else { %>
-                                <option value="<%= categories[i]._id %>"> <%= categories[i].type %> </option>
-                            <% } %>
-                        <% } %>
+                    <select name="category" class="form-control" ng-change="form.changeCateg()" ng-model="form.selectedCateg" ng-options="categ.type | uppercase for categ in form.categories track by categ._id" required>
                     </select>
                 </div>
             </div>
@@ -58,18 +51,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-2"> Sub Category: </label>
                 <div class='col-sm-10'>
-                    <select name="subCategory" class="form-control" required>
-                        <% for (var i = 0; i < categories.length; i++) { %>
-                            <% if (JSON.stringify(post.sub_category.category) === JSON.stringify(categories[i]._id)) { %>
-                                <% for (var j = 0; j < categories[i].sub_categories.length; j++) { %>
-                                    <% if (JSON.stringify(post.sub_category._id) === JSON.stringify(categories[i].sub_categories[j]._id)) { %>
-                                        <option value="<%= categories[i].sub_categories[j]._id %>" selected="selected"> <%= categories[i].sub_categories[j].type %> </option>
-                                    <% } else { %>
-                                        <option value="<%= categories[i].sub_categories[j]._id %>"> <%= categories[i].sub_categories[j].type %> </option>
-                                    <% } %>
-                                <% } %>
-                            <% } %>
-                        <% } %>
+                    <select name="subCategory" class="form-control" ng-options="subCateg.type | uppercase for subCateg in form.subCategories track by subCateg._id" ng-model="form.selectedSubCateg" required>
                     </select>
                 </div>
             </div>
@@ -96,21 +78,49 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="control-label col-sm-2">Pictures: </label>
+            <div class="form-group" ng-init="form.currentTotalPhotos=<%= post.pictures_s.length %>">
+                <label class="control-label col-sm-2">Current Photos: </label>
                 <div class="col-sm-10">
                     <% for (var i = 0; i < post.pictures_s.length; i++) { %>
                         <div style="position:relative;float:left;width:120px;">
                             <img src="<%= post.pictures_s[i] %>">
-                            <span id="x" style="position:absolute;right:0;top:0;cursor:pointer;" img-loc="<%= post.pictures_s[i] %>">
+                            <span id="x" style="position:absolute;right:0;top:0;cursor:pointer;" img-loc="<%= post.pictures_s[i] %>" ng-click="form.deleteImage()">
                                 <img src="/img/delete.png" width="30px">
                             </span> 
                         </div>
                     <% } %>
-                    <input type='hidden' value='<%= csrfToken %>' name="_csrf" id="csrf" />
+                    <!-- <input type='hidden' value='<%= csrfToken %>' name="_csrf" /> -->
                     <input type='hidden' value='<%= post.id %>' name="postId" id="postId" />
                 </div>
             </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2"> Photos: </label>
+                <div class="col-sm-10">
+                  <input id='photos' name='photos' type='file' accept="image/*" multiple />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2"></label>
+                <div class="col-sm-10">
+                    <ul class="alert alert-info">
+                        <li>Add up to 12 photos. Each photo is 5MB max.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+            <label class="control-label col-sm-2"> </label>
+            <div class="col-sm-10">
+              <ul ng-show="form.photos.length || form.photosGT12 || form.photosNeed" class="alert alert-danger">
+                <li ng-show="form.photosNeed">Need at least one photo</li>
+                <li ng-show="form.photosGT12">Photos exceed 12</li>
+                <li ng-show="form.photos.length">Photo maximum size is 5 MB</li>
+                <li ng-show="form.photos.length" ng-repeat="photo in form.photos">{{photo.name}} is {{photo.size/1024/1024 | number:4}} MB</li>
+              </ul>
+            </div>
+          </div>
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">Details</label>

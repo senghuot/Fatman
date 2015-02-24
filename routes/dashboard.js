@@ -59,6 +59,10 @@ router.get('/posts/edit/:id', before.auth, function(req, res){
 				if (errCategories) return console.log(errCategories);
 
 				if (post.user.id == req.user.id) {
+					console.log(post);
+					var scripts = [];	
+					scripts.push("/js/angular/editPost.js");	
+
 					res.render('dashboard/editPost', {
 						errors: req.flash('errors'),
 						message: req.flash('message'),
@@ -67,7 +71,8 @@ router.get('/posts/edit/:id', before.auth, function(req, res){
 						categories: categories,
 						locations: locations,
 						csrfToken: req.csrfToken(),
-						oldInput: req.flash('oldInput')
+						oldInput: req.flash('oldInput'),
+						scripts: scripts
 					});
 				} else {
 					return res.send(post);
@@ -77,34 +82,38 @@ router.get('/posts/edit/:id', before.auth, function(req, res){
 	});
 });
 
-/* GET delete posts page */
-// router.get('/posts/:id/delete', before.auth,function(req, res){
-// 	var postId = req.params.id;
+/* 
+GET delete posts page 
+Set post's status to delete; post won't show up on search page
+*/
+router.get('/posts/:id/delete', before.auth,function(req, res){
+	var postId = req.params.id;
 
-// 	Post.findOne({_id: postId}).populate("user").exec(function(err, post){
-// 		if (err){
-// 			console.log(err);	
-// 			// handle error. eg: redirection to other pages...
-// 			res.send("something went wrong!!!")
-// 		} 
+	Post.findOne({_id: postId}).populate("user").exec(function(err, post){
+		if (err){
+			console.log(err);	
+			// handle error. eg: redirection to other pages...
+			res.send("something went wrong!!!")
+		} 
 
-// 		// post not found
-// 		if (post == null) return res.send("Post not found!");
+		// post not found
+		if (post == null) return res.send("Post not found!");
 
-// 		// post is not belonged to this user
-// 		if (req.user.id != post.user._id) return res.send("You are naughty girl!");
+		// post is not belonged to this user
+		if (req.user.id != post.user._id) return res.send("You are naughty girl!");
 
-// 		post.status = 'delete';
+		post.status = 'delete';
 
-// 		post.save(function(err){
-// 			if (err){
-// 				console.log(err);
-// 				//handle erre
-// 			}else{
-// 				res.redirect('/dashboard/posts');
-// 			}
-// 		});
-// 	});
+		post.save(function(err){
+			if (err){
+				console.log(err);
+				//handle erre
+			}else{
+				res.redirect('/dashboard/posts');
+			}
+		});
+	});
+});
 
 router.post('/posts/edit', before.auth, function(req, res) {
 	// trim out the whitespaces
