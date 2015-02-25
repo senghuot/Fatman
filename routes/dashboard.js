@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
+var easyimage = require('easyimage');
 var mongoose = require('mongoose');
 
 // model
@@ -82,39 +84,9 @@ router.get('/posts/edit/:id', before.auth, function(req, res){
 	});
 });
 
-/* 
-GET delete posts page 
-Set post's status to delete; post won't show up on search page
+/*
+POST edit posts page
 */
-router.get('/posts/:id/delete', before.auth,function(req, res){
-	var postId = req.params.id;
-
-	Post.findOne({_id: postId}).populate("user").exec(function(err, post){
-		if (err){
-			console.log(err);	
-			// handle error. eg: redirection to other pages...
-			res.send("something went wrong!!!")
-		} 
-
-		// post not found
-		if (post == null) return res.send("Post not found!");
-
-		// post is not belonged to this user
-		if (req.user.id != post.user._id) return res.send("You are naughty girl!");
-
-		post.status = 'delete';
-
-		post.save(function(err){
-			if (err){
-				console.log(err);
-				//handle erre
-			}else{
-				res.redirect('/dashboard/posts');
-			}
-		});
-	});
-});
-
 router.post('/posts/edit', before.auth, function(req, res) {
 	// trim out the whitespaces
 	var postID = (req.body.postID != undefined) ? req.body.postID.trim() : '';
@@ -154,11 +126,117 @@ router.post('/posts/edit', before.auth, function(req, res) {
 
 				post.save(function (errSave) {
 					if (errSave) console.log(errSave);
-					res.redirect('/dashboard/posts');
+					else{
+						// convert an object to an array
+						var photos = [];
+						if (Object.prototype.toString.call(req.files.photos) === '[object Array]')
+							photos = req.files.photos;
+						else
+							photos.push(req.files.photos);
+
+						// get the last index of picture
+						var lastPhotoIndex = 0;
+						if (post.pictures.length > 0){
+							var lastPhoto = post.pictures[post.pictures.length - 1];
+							var beginIndex = lastPhoto.lastIndexOf("_");
+							lastPhotoIndex = lastPhoto.substring(beginIndex + 1, beginIndex + 2);
+							lastPhotoIndex++;
+						}
+
+						// update all the photos
+						for (var i = 0; i < photos.length; i++) {
+							console.log("inside update all photos: " + i);
+							var data = fs.readFileSync(photos[i].path);
+
+							// move the files from tmp to upload folders
+					        var extension = photos[i].type;
+					        var index = extension.lastIndexOf("/");
+					        extension = extension.substring(index + 1);
+
+					        var photoIndex = i + lastPhotoIndex;
+							var relativePath = '/uploads/posts/' + post._id + '_' + photoIndex + '.' + extension;
+
+							fs.writeFileSync("./public" + relativePath, data);
+							post.pictures.push(relativePath);
+
+							// small image
+							var smallImagePath = "/uploads/posts/small/" + post._id + "_s_" + photoIndex + ".jpg";
+							post.pictures_s.push(smallImagePath);
+							easyimage.resize({
+								src: photos[i].path,
+								dst: "public" + smallImagePath,
+								width: 300
+							}).then(
+								function(file){
+									console.log("pictures_s is pushed.");
+								},
+								function(err){
+									console.log(err);
+								}
+							);
+
+							// large image
+							var largeImagePath = "/uploads/posts/large/" + post._id + "_l_" + photoIndex + ".jpg";
+							post.pictures_l.push(largeImagePath);
+							easyimage.resize({
+								src: photos[i].path,
+								dst: "public" + largeImagePath,
+								width: 800
+							}).then(
+								function(file){
+									console.log("pictures_l is pushed.");
+								},
+								function(err){
+									console.log(err);
+								}
+							);
+						}
+
+						post.save(function(err){
+							if 
+								(err) console.log(err);
+							else
+								res.redirect('/dashboard/posts');	
+						});
+						
+					}
 				});
 			}
 		});
 	}
+});
+
+/* 
+GET delete posts page 
+Set post's status to delete; post won't show up on search page
+*/
+router.get('/posts/:id/delete', before.auth,function(req, res){
+	var postId = req.params.id;
+
+	Post.findOne({_id: postId}).populate("user").exec(function(err, post){
+		if (err){
+			console.log(err);	
+			// handle error. eg: redirection to other pages...
+			res.send("something went wrong!!!")
+		} 
+
+		// post not found
+		if (post == null) return res.send("Post not found!");
+
+		// post is not belonged to this user
+		if (req.user.id != post.user._id) return res.send("You are naughty girl!");
+
+		post.status = 'delete';
+
+		post.save(function(err){
+			if (err){
+				console.log(err);
+				//handle erre
+			}else{
+				res.redirect('/dashboard/posts');
+			}
+		});
+	});
 });
 
 /* GET profile page */

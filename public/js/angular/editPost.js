@@ -64,7 +64,7 @@
 		}
 
 		this.deleteImage = function(){
-			alert("Current Total Photos: " + --this.currentTotalPhotos);
+			--this.currentTotalPhotos;
 		}
 
 		//load category and sub_category from database
@@ -89,8 +89,6 @@
 						myApp.selectedSubCateg = myApp.subCategories[i];
 					}
 				}
-
-				alert("Current Total Photos: " + myApp.currentTotalPhotos);
 			}).
 			error(function(data, status, headers, config){
 				alert(data);
