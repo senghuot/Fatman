@@ -37,7 +37,7 @@
 			<% var monthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; %>
 			<% for (var i = 0; i < posts.length; i++) { %>
 				<tr>
-					<td><img src="<%= posts[i].pictures[0] %>" width="100px" /></td>
+					<td><a href="/display/<%= posts[i]._id %>"><img src="<%= posts[i].pictures_s[0] %>" width="100px" /></a></td>
 					<td><%= posts[i].title.substr(0, 20) %>...</td>
 					<td><%= posts[i].description.substr(0, 50) %>...</td>
 					<td><%= monthName[posts[i].post_date.getMonth()] %> <%= posts[i].post_date.getDate() %>, <%= posts[i].post_date.getFullYear() %></td>

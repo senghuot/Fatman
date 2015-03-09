@@ -68,7 +68,7 @@
 		}
 
 		//load category and sub_category from database
-		$http.get("http://localhost:3000/categories").
+		$http.get("/categories").
 			success(function(data, status, headers, config){
 
 				myApp.categories	 = data.sort(function(a, b){
