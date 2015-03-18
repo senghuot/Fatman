@@ -129,10 +129,16 @@ router.post('/posts/edit', before.auth, function(req, res) {
 					else{
 						// convert an object to an array
 						var photos = [];
-						if (Object.prototype.toString.call(req.files.photos) === '[object Array]')
-							photos = req.files.photos;
-						else
-							photos.push(req.files.photos);
+						if (req.files.photos.length != 'undefined'){
+							if (Object.prototype.toString.call(req.files.photos) === '[object Array]'){
+								photos = req.files.photos;
+							}
+							else if (req.files.photos.size > 0){ // there will be one empty file if no file selected
+								photos.push(req.files.photos);
+							}
+						}
+
+						console.log("photo length: " + photos.length);
 
 						// get the last index of picture
 						var lastPhotoIndex = 0;
@@ -154,7 +160,7 @@ router.post('/posts/edit', before.auth, function(req, res) {
 					        extension = extension.substring(index + 1);
 
 					        var photoIndex = i + lastPhotoIndex;
-							var relativePath = '/uploads/posts/' + post._id + '_' + photoIndex + '.' + extension;
+							var relativePath = '/uploads/posts/' + post._id + '_' + photoIndex + '.' + "jpg";
 
 							fs.writeFileSync("./public" + relativePath, data);
 							post.pictures.push(relativePath);

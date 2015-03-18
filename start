@@ -3,3 +3,8 @@ nodemon ./bin/www
 export NODE_ENV=production
 nodemon ./bin/www
 these two lines above are for running production environment: production doesn't show the error trace.
+
+1. ssh -i node_keypair.pem ubuntu@ec2-54-173-35-59.compute-1.amazonaws.com
+
+* If warning sign occur telling you that the key is unprotected then you need to change permission 
+chmod 400 node_keypair.pem
