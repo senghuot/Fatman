@@ -39,12 +39,9 @@
         return p1+p2.toUpperCase();
       } );
   };
+  //***************************************************
 
-  var skip = 1;
-  var loadStatus = true;
-  var allowInfiniteScroll= false;
-
-  // search button
+  // Searching for posts
   $('select#selectCategory').change(function(){
     var category = $('select#selectCategory');
     var hiddenCategory = $('input#category');
@@ -62,9 +59,14 @@
     var myForm = $('form#search');
     myForm.submit();
   });
+  //***************************************************
 
   // click more button to get more content
+  var skip = 1;
+
   $("button#more").click(function(){
+
+    $("button#more").html("Loading...");
     // allowInfiniteScroll = true;
     // $(this).hide();
     var myForm = $('form#search');
@@ -87,10 +89,10 @@
       data: data,
       contentType: "application/json; charset=UTF-8"
     });
-
+    
     request.done(function(data){
+
       var divResult = $("div#container");
-      console.log(data);
 
       for (var i = 0; i < data.length; i++){
         var result = "<div class='post'>";
@@ -111,15 +113,21 @@
           divResult.masonry("reloadItems").masonry("layout");
         });
       }
+
+      $("button#more").html("More");
+      if (data.length === 0){
+        $("button#more").html("No More Post!");
+      }
     });
 
     request.fail(function(jqXHR, textStatus){
       alert("Request failed: " + textStatus);
+      $("button#more").html("Loading Fail!");
     });
   });
   
   //************************************************************************************
-  // hide show navbar
+  // hide/show navbar
   // $("div.navbar-fixed-top").autoHidingNavbar();
 
   var didScroll;

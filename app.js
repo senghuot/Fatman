@@ -50,7 +50,7 @@ app.use(expressValidator());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(multipart());
-app.use(csrf());
+
 
 
 // give user & location object to every route
@@ -69,6 +69,11 @@ app.use(function(req, res, next){
             
     });
 });
+
+// any routes above app.use(csrf()) will not checked csrf validation
+
+// csrf validation 
+app.use(csrf());
 
 // routes
 app.use('/', routes);
