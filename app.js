@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
+// var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var expressSession = require('express-session');
@@ -34,9 +34,10 @@ app.locals.siteName = "FATMAN";
 // uncomment after placing your favicon in /public
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
+app.use(multipart());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false}));
+// app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressSession({
     secret: process.env.SESSION_SECRET || 'secret',
@@ -49,9 +50,18 @@ app.use(expressValidator());
 // passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(multipart());
-app.use(csrf());
 
+// allow cross domain request
+app.use(function(req, res, next) {
+    // CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*');  // restrict it to the required domain
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT, OPTIONS');
+
+    // Set custom headers for CORS
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Authorization, X-Access-Token, X-Key');
+    
+    next();
+});
 
 // give user & location object to every route
 var Location = require("./models/location");
@@ -70,16 +80,23 @@ app.use(function(req, res, next){
     });
 });
 
+// any routes above app.use(csrf()) will not checked csrf validation
+
+// csrf validation 
+// app.use(csrf());
+
 // routes
-app.use('/', routes);
-app.use('/users', users);
-app.use('/categories', categories);
-app.use('/api/v1', apiV1);
-app.use('/locations', locations);
-app.use('/hash', hash);
-app.use('/authenticate', authenticate);
-app.use("/dashboard", dashboard);
-app.use("/image", image);
+// app.use('/', routes);
+// app.use('/users', users);
+// app.use('/categories', categories);
+// app.use('/api/v1', apiV1);
+// app.use('/locations', locations);
+// app.use('/hash', hash);
+// app.use('/authenticate', authenticate);
+// app.use("/dashboard", dashboard);
+// app.use("/image", image);
+
+app.use('/api/v2/', require('./routes/api/v2'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

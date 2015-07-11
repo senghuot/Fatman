@@ -66,7 +66,7 @@ router.get('/post', before.auth, function(req, res){
 });
 
 /* POST post page */
-router.post('/post', function(req, res){
+router.post('/post', before.auth, function(req, res){
 	/**
 	this trim here needed to change; it doesn't look right
 	**/
@@ -308,19 +308,22 @@ router.get('/search', function(req, res){
 	var filter = {};
 	filter.status = "active";
 
+	// keyword searching on post's title
 	var keyword = req.query.keyword;
 	var regex = new RegExp(keyword, 'i');
 	filter.title = regex;
 
+	// filter on location
 	var location = req.query.location;
 	if (location !== "")
 		filter.location = location;
 	
+	// filter on category
 	var category = req.query.category;
 	if (category !== '')
 		filter.sub_category = category;
 
-
+	// sort search result
 	var sortFilter = {};
 	var sort = req.query.sort;
 	if (sort === 'low')
@@ -332,12 +335,14 @@ router.get('/search', function(req, res){
 	else if (sort === 'oldest')
 		sortFilter.post_date = 1;
 
+	// find posts based on filter and sort it (in production code should limit to 20 or more)
 	Post.find(filter).sort(sortFilter).populate('location sub_category user').limit(2)
 	.exec(function(err, posts) {
 		if (err)
 			console.log(err);
 		else {
 			Category.find().populate('sub_categories').exec(function(err, categories){
+				// sort sub_categories alphabetically 
 				for (var i = 0; i < categories.length; i++){
 					categories[i].sub_categories = categories[i].sub_categories.sort(function(a, b){
 						if (a.type < b.type) return -1;

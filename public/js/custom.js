@@ -65,9 +65,9 @@
 
   // click more button to get more content
   $("button#more").click(function(){
+    $("button#more").html("Loading...");
     // allowInfiniteScroll = true;
     // $(this).hide();
-    var myForm = $('form#search');
     var location = $("select#location");
     var keyword = $("input#keyword");
     var category = $("input#category");
@@ -89,6 +89,7 @@
     });
 
     request.done(function(data){
+
       var divResult = $("div#container");
       console.log(data);
 
@@ -111,6 +112,11 @@
           divResult.masonry("reloadItems").masonry("layout");
         });
       }
+
+       	$("button#more").html("More"); 
+	if (data.length === 0){
+        	$("button#more").html("No More Post!"); 
+	}
     });
 
     request.fail(function(jqXHR, textStatus){

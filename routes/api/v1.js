@@ -21,34 +21,19 @@ router.get('/user', function(req, res) {
 });
 
 router.get('/posts', function(req, res){
-	// Post.find().populate("sub_category").exec(function(err, posts){
-		
-	// 	Post.populate(posts, {path: "sub_category.category", model: "Category"}, function(err, data){	
-	// 		console.log(data);
-	// 		res.json(data);
-	// 	});
+	var skip = req.query.skip;
+	var limit = req.query.limit;
 
-	// });
+	Post.find().sort({post_date: -1}).populate("location sub_category user").skip(skip*limit).limit(limit)
+	.exec(function(err, posts){
+		res.json(posts);
+	});
 
-	// Sub_Category.find().populate({path: "posts", options: { sort: {"type":1} } }).exec(function(err, subs){
-	// 	console.log(subs);
-	// 	res.json(subs);
-	// });
+});
 
-	// Post.aggregate([{$group: {_id: "$condition"} }]).exec(function(err, posts){
-	// 	console.log(posts);
-	// 	res.json(posts);
-	// });
-
-	Location.findOne({city: "phnom penh"}).populate({path: "posts"}).exec(function(err, loc){
-		var locs = loc.toObject();
-		locs.posts = locs.posts.sort(function(a, b){
-			if (a.condition > b.condition) return 1;
-			if (a.condition < b.condition) return -1;
-			return 0;
-		});
-		console.log(locs);
-		res.json(locs);
+router.get("/post/:id", function(req, res){
+	Post.findOne({_id: req.params.id}, function(err, post){
+		res.json(post);
 	});
 });
 
