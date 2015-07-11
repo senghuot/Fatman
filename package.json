@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "nodemon": "~1.2.1",
@@ -23,6 +23,8 @@
     "passport": "~0.2.1",
     "csurf": "~1.6.3",
     "connect-multiparty": "~1.2.5",
-    "easyimage": "~1.1.1"
+    "easyimage": "~1.1.1",
+    "jwt-simple": "~0.3.0",
+    "socket.io": "~1.3.5"
   }
 }

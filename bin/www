@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 var debug = require('debug')('Fatman');
 var app = require('../app');
+var socketIO = require('socket.io');
+var baseSocket = require('../sockets/base');
 
 app.set('port', process.env.PORT || 3000);
 
@@ -8,3 +10,11 @@ var server = app.listen(app.get('port'), function() {
   debug('Express server listening on port ' + server.address().port);
   console.log("Enviroment: " + app.get("env"));
 });
+
+var io = socketIO.listen(server);
+base.socket(io);
+
+
+
+
+

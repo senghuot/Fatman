@@ -8,3 +8,9 @@ these two lines above are for running production environment: production doesn't
 
 * If warning sign occur telling you that the key is unprotected then you need to change permission 
 chmod 400 node_keypair.pem
+
+To run node on ec2:
+nohup node ./bin/www &
+
+Check PID on ubuntu:
+ps -ef
