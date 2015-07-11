@@ -4,6 +4,7 @@ var fs = require('fs');
 var easyimage = require('easyimage');
 var jwt = require('jwt-simple');
 var secret = require('./../../config/secret');
+var baseSocket = require('./../../sockets/base');
 
 var User = require('./../../models/user');
 var Post = require('./../../models/post');
@@ -12,6 +13,12 @@ var sub_category = require('./../../models/sub_category');
 var Category = require('./../../models/category');
 
 var auth = require('./../../jwt/auth.js');
+
+router.get('/io', function(req, res){
+	var io = baseSocket.getIO();
+	io.emit('userCount', 1000);
+	res.json({'Total Connection' : io.sockets.sockets.length});
+});
 
 router.post('/login', auth.login);
 

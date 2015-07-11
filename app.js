@@ -14,6 +14,7 @@ var csrf = require('csurf');
 var app = express();
 var multipart = require('connect-multiparty');
 
+
 // include the routes
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -37,7 +38,7 @@ app.use(logger('dev'));
 app.use(multipart());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
-// app.use(cookieParser());
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressSession({
     secret: process.env.SESSION_SECRET || 'secret',
